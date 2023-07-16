@@ -1,23 +1,53 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      redirect: { name: 'home' },
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
-  ]
-})
+      path: '/home',
+      name: 'home',
+      component: () => import('../views/Home.view.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('../views/Settings.view.vue'),
+    },
+    {
+      path: '/listening',
+      name: 'listening',
+      component: () => import('../views/tasks/Listening.view.vue'),
+    },
+    {
+      path: '/rhymes',
+      name: 'rhymes',
+      component: () => import('../views/tasks/Rhymes.view.vue'),
+    },
+    {
+      path: '/sentences_and_words',
+      name: 'sentences_and_words',
+      component: () => import('../views/tasks/Sentence.view.vue'),
+    },
+    {
+      path: '/syllables',
+      name: 'syllables',
+      component: () => import('../views/tasks/Syllables.view.vue'),
+    },
+    {
+      path: '/initial_sound',
+      name: 'initial_sound',
+      component: () => import('../views/tasks/InitialSound.view.vue'),
+    },
+    {
+      path: '/phonemes',
+      name: 'phonemes',
+      component: () => import('../views/tasks/Phonemes.view.vue'),
+    },
+  ],
+});
 
-export default router
+export default router;

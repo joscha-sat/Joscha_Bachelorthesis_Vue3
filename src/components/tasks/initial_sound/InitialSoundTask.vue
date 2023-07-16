@@ -2,7 +2,6 @@
 <script lang='ts' setup>
 import correct from '../../../assets/sounds/tasks/correct.mp3';
 import fail from '../../../assets/sounds/tasks/fail.mp3';
-import success from '../../../assets/sounds/tasks/success.mp3';
 
 
 import bear from '@/assets/images/tasks/initialSound/bear.png';
@@ -35,6 +34,7 @@ import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import router from '@/router';
+import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 
 
 interface Letter {
@@ -92,8 +92,10 @@ const nextCard = () => {
     }
 };
 
+const speechStore = useTextToSpeechStore();
+const soundStore = useSoundHelperStore();
+
 const speak = (txt: string) => {
-    const speechStore = useTextToSpeechStore();
     speechStore.playVoice(txt);
 };
 
@@ -114,14 +116,13 @@ const drop = () => {
         }
         const audio = new Audio(correct);
         audio.play();
-
         // get a new array where
         const checkAllWordsFound = images.value.filter((item) => item.id === currentCardIndex.value);
 
         // success case > found all words
         if (((currentCardIndex.value === 0 || currentCardIndex.value === 1 || currentCardIndex.value === 2) && checkAllWordsFound.length === 2) || currentCardIndex.value === 3 && checkAllWordsFound.length === 3) {
-            const audio = new Audio(success);
-            audio.play();
+            soundStore.playSuccess(0.3);
+            speechStore.playVoice(`You found all words with the letter ${ letters[currentCardIndex.value].letter.charAt(0) }, bravo!`);
             allFound.value = true;
 
             setTimeout(() => {
@@ -130,17 +131,17 @@ const drop = () => {
             }, 2500);
         }
 
-        // success case > found all words last letter
+        // success case > found all words and it's the last letter
         if (currentCardIndex.value === 4 && checkAllWordsFound.length === 1) {
-            const audio = new Audio(success);
-            audio.play();
+            soundStore.playSuccess(0.3);
+            speechStore.playVoice(`You found all words with the letter ${ letters[currentCardIndex.value].letter.charAt(0) }, bravo!`);
+
             setTimeout(() => {
                 router.push({
                     path: '/home',
                 });
             }, 2500);
         }
-
 
     } else {
         const audio = new Audio(fail);

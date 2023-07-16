@@ -10,6 +10,7 @@ import { reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
+import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 
 const words = reactive([
     { id: 0, word: 'beach', src: beach },
@@ -52,10 +53,9 @@ const getList = (list) => {
 };
 
 const currentCard = ref(0);
-
 const correct = ref(false);
-
 const speechStore = useTextToSpeechStore();
+const soundStore = useSoundHelperStore();
 
 const dragStart = (event, answer) => {
     event.dataTransfer.setData('answerID', answer.id);
@@ -66,13 +66,23 @@ const onDrop = (event, list) => {
     const answerID = event.dataTransfer.getData('answerID');
     const answer = answers.find((answer) => answer.id == answerID);
 
-
     if (list === 2 && getList(2).length > 0) {
         getList(2).forEach((item) => item.list = 1);
     }
 
     answer.list = list;
     correct.value = answer.correct && answer.list === 2;
+
+    if (correct.value) {
+        soundStore.playSuccess(0.3);
+        speechStore.playVoice(`Great, you found the right spelling of ${ answer.word }!`);
+
+        setTimeout(() => {
+            nextCard();
+        }, 3000);
+    } else {
+        soundStore.playFail(0.3);
+    }
 };
 
 const nextCard = () => {
@@ -170,9 +180,6 @@ const previousCard = () => {
         </div>
 
     </div>
-
-    {{ correct }}
-
 </template>
 
 <!-- SCSS ---------------------------------------------------------// -->

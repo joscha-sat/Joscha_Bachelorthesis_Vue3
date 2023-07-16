@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 
 import bgMusic from '../assets/sounds/bgMusic.mp3';
-
 import success from '../assets/sounds/tasks/success.mp3';
+import fail from '../assets/sounds/tasks/fail.mp3';
 
 export const useSoundHelperStore = defineStore('soundHelper', {
     state: () => ({
@@ -14,6 +14,7 @@ export const useSoundHelperStore = defineStore('soundHelper', {
         bgIsPlaying: false,
         audio: new Audio(bgMusic),
         successAudio: new Audio(success),
+        failAudio: new Audio(fail),
     }),
 
     // GETTER -------------------------------------------------------------------- //>
@@ -54,8 +55,12 @@ export const useSoundHelperStore = defineStore('soundHelper', {
 
         playSuccess(volume?: number) {
             if (volume) this.successAudio.volume = volume;
-
             this.successAudio.play().then();
+        },
+
+        playFail(volume?: number) {
+            if (volume) this.successAudio.volume = volume;
+            this.failAudio.play().then();
         },
 
         onMountedBgMusic() {

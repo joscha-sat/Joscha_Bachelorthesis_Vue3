@@ -11,12 +11,11 @@ import happy from '../../../assets/images/tasks/syllables/happy.png';
 import sun from '../../../assets/images/tasks/syllables/sun.png';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 
-import correct from '../../../assets/sounds/tasks/success.mp3';
-import fail from '../../../assets/sounds/tasks/fail.mp3';
 import { reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
+import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 
 const syllables: Syllable[] = reactive([
     { id: 0, syllables: 3, word: 'Banana', src: banana },
@@ -30,6 +29,8 @@ const syllables: Syllable[] = reactive([
 const speechStore = useTextToSpeechStore();
 const { speech, voice } = storeToRefs(speechStore);
 
+const soundStore = useSoundHelperStore();
+
 const audio = ref();
 const maxRepetitions = ref(3);
 let playCount = 0;
@@ -39,23 +40,18 @@ const answerCorrect = ref(false);
 
 const checkAnswer = () => {
     answerCorrect.value = Number(enteredSyllableNumber.value) === syllables[currentCard.value].syllables;
-    const audio = ref();
 
     if (answerCorrect.value) {
-        audio.value = new Audio(correct);
-        audio.value.volume = 0.3;
-        audio.value.play();
-
+        soundStore.playSuccess(0.3);
         speechStore.playVoice(`Great! ${ syllables[currentCard.value].word } has ${ syllables[currentCard.value].syllables } syllables!`);
 
         setTimeout(() => {
             nextCard();
             answerCorrect.value = false;
         }, 4000);
+
     } else if (!answerCorrect.value && enteredSyllableNumber.value) {
-        audio.value = new Audio(fail);
-        audio.value.volume = 0.5;
-        audio.value.play();
+        soundStore.playFail(0.3);
     }
 };
 

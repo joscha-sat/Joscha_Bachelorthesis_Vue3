@@ -1,15 +1,15 @@
 <!-- TS ------------------------------------------------------------//-->
-<script lang="ts" setup>
+<script lang='ts' setup>
 
-import beach from '../../../assets/images/tasks/phonemes/beach.jpg'
-import cloud from '../../../assets/images/tasks/phonemes/cloud.png'
-import jungle from '../../../assets/images/tasks/phonemes/jungle.jpg'
-import cloak from '../../../assets/images/tasks/phonemes/cloak.png'
-import dolphin from '../../../assets/images/tasks/phonemes/dolphin.png'
-import { reactive, ref } from "vue";
-import { useTextToSpeechStore } from "@/stores/TextToSpeech.store";
-import TitleWithSound from "@/components/shared/TitleWithSound.vue";
-import ImageCard from "@/components/shared/Image-Card.vue";
+import beach from '../../../assets/images/tasks/phonemes/beach.jpg';
+import cloud from '../../../assets/images/tasks/phonemes/cloud.png';
+import jungle from '../../../assets/images/tasks/phonemes/jungle.jpg';
+import cloak from '../../../assets/images/tasks/phonemes/cloak.png';
+import dolphin from '../../../assets/images/tasks/phonemes/dolphin.png';
+import { reactive, ref } from 'vue';
+import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
+import TitleWithSound from '@/components/shared/TitleWithSound.vue';
+import ImageCard from '@/components/shared/Image-Card.vue';
 
 const words = reactive([
     { id: 0, word: 'beach', src: beach },
@@ -45,11 +45,11 @@ const answers = reactive([
     { index: 4, id: 17, word: 'doulphin', list: 1, correct: false },
     { index: 4, id: 18, word: 'dolphin', list: 1, correct: true },
     { index: 4, id: 19, word: 'dolfin', list: 1, correct: false },
-])
+]);
 
 const getList = (list) => {
-    return answers.filter((item) => item.list === list)
-}
+    return answers.filter((item) => item.list === list);
+};
 
 const currentCard = ref(0);
 
@@ -59,7 +59,7 @@ const speechStore = useTextToSpeechStore();
 
 const dragStart = (event, answer) => {
     event.dataTransfer.setData('answerID', answer.id);
-}
+};
 
 const onDrop = (event, list) => {
 
@@ -68,7 +68,7 @@ const onDrop = (event, list) => {
 
 
     if (list === 2 && getList(2).length > 0) {
-        getList(2).forEach((item) => item.list = 1)
+        getList(2).forEach((item) => item.list = 1);
     }
 
     answer.list = list;
@@ -83,8 +83,8 @@ const nextCard = () => {
     }
 
     getList(2).forEach(item => item.list = 1);
-    correct.value = false
-}
+    correct.value = false;
+};
 
 const previousCard = () => {
     if (currentCard.value > 0) {
@@ -93,76 +93,80 @@ const previousCard = () => {
         currentCard.value = answers.length / 4 - 1;
     }
     getList(2).forEach(item => item.list = 1);
-    correct.value = false
-}
+    correct.value = false;
+};
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->
 <template>
-    <TitleWithSound title="Listen to the word and choose the right spelling"/>
+    <TitleWithSound title='Listen to the word and choose the right spelling' />
 
-    <div class="container">
+    <div class='container'>
 
-        <div class="slider-container">
+        <div class='slider-container'>
 
-            <v-btn :icon="'mdi-arrow-left-thick'" color="primary" @click="previousCard()"></v-btn>
+            <v-btn :icon="'mdi-arrow-left-thick'" color='primary' @click='previousCard()'></v-btn>
 
             <ImageCard
-              v-if="currentCard !== null"
-              :src="words[currentCard].src"
-              @clickImg="speechStore.playVoice(words[currentCard].word)"
-              @voice="speechStore.playVoice(words[currentCard].word)"
+                v-if='currentCard !== null'
+                :src='words[currentCard].src'
+                @clickImg='speechStore.playVoice(words[currentCard].word)'
+                @voice='speechStore.playVoice(words[currentCard].word)'
             />
 
-            <v-btn :icon="'mdi-arrow-right-thick'" color="primary" @click="nextCard()"></v-btn>
-
-            <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
-            <h3>
-                {{ currentCard + 1 }} / {{ words.length }}
-            </h3>
+            <v-btn :icon="'mdi-arrow-right-thick'" color='primary' @click='nextCard()'></v-btn>
 
         </div>
 
-        <!--    DROP ZONE    -->
 
-        <div
-          :class="[{'drop-field-correct': correct, 'drop-field-incorrect': getList(2).length > 0 && !correct }]"
-          class="drop-field"
-          @drop="onDrop($event, 2)"
-          @dragenter.prevent
-          @dragover.prevent
-        >
+        <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
+        <h3 style='text-align: end'>
+            {{ currentCard + 1 }} / {{ words.length }}
+        </h3>
+
+        <div class='bottom-container'>
+
+            <!--    DROP ZONE    -->
+
             <div
-              v-for="answer in getList(2)"
-              :key="answer.id"
-              class='drag-el'
-              draggable="true"
-              @dragstart="dragStart($event, answer)"
+                :class="[{'drop-field-correct': correct, 'drop-field-incorrect': getList(2).length > 0 && !correct }]"
+                class='drop-field'
+                @drop='onDrop($event, 2)'
+                @dragenter.prevent
+                @dragover.prevent
             >
-                <h1>
-                    {{ answer.word }}
-                </h1>
+                <div
+                    v-for='answer in getList(2)'
+                    :key='answer.id'
+                    class='drag-el'
+                    draggable='true'
+                    @dragstart='dragStart($event, answer)'
+                >
+                    <h1>
+                        {{ answer.word }}
+                    </h1>
+                </div>
+
+                <span v-if='getList(2).length < 1' style='color: #ccc'>Drop your word here</span>
             </div>
 
-            <span v-if="getList(2).length < 1" style="color: #ccc">Drop your word here</span>
-        </div>
 
-
-        <div class="word-container" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent>
-            <template
-              v-for="(answer, index) in getList(1)"
-              :key="index"
-            >
-                <v-card
-                  v-if="answer.index === currentCard"
-                  class="card"
-                  draggable="true"
-                  @dragstart="dragStart($event, answer)"
+            <div class='word-container' @drop='onDrop($event, 1)' @dragenter.prevent @dragover.prevent>
+                <template
+                    v-for='(answer, index) in getList(1)'
+                    :key='index'
                 >
-                    <v-card-title>{{ answer.word }}</v-card-title>
-                </v-card>
-            </template>
+                    <v-card
+                        v-if='answer.index === currentCard'
+                        class='card'
+                        draggable='true'
+                        @dragstart='dragStart($event, answer)'
+                    >
+                        <v-card-title>{{ answer.word }}</v-card-title>
+                    </v-card>
+                </template>
 
+            </div>
         </div>
 
     </div>
@@ -172,15 +176,10 @@ const previousCard = () => {
 </template>
 
 <!-- SCSS ---------------------------------------------------------// -->
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .container {
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-
-    margin-top: 2rem;
+    width: min(60rem, 100%);
+    margin: auto;
 
     .slider-container {
         display: flex;
@@ -210,6 +209,14 @@ const previousCard = () => {
         padding-inline: 5rem;
 
         margin-top: 2rem;
+    }
+
+    .bottom-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        flex-direction: column;
     }
 
     .drop-field {

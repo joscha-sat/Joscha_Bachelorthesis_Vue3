@@ -12,11 +12,10 @@ const tutorialText = ref('On your screen you see an image card representing a wo
 
 <!-- HTML ----------------------------------------------------------//-->
 <template>
-
     <HelpMeBtn/>
+
     <v-container>
         <PhonemesTask/>
-
         <TutorialDialog :txt="tutorialText"/>
     </v-container>
 </template>

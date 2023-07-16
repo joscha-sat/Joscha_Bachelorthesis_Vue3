@@ -57,14 +57,14 @@ const playSound = () => {
 }
 
 .content {
-    flex-basis: 55%;
+    flex-basis: 70%;
     display: flex;
     justify-content: center;
 
 }
 
 .right {
-    flex-basis: 25%;
+    flex-basis: 20%;
     display: flex;
     justify-content: flex-end;
 }

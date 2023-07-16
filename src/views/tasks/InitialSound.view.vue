@@ -17,7 +17,6 @@ const tutorialText = ref('At the top of your screen you see a letter. Below you 
 
     <v-container>
         <InitialSoundTask/>
-
         <TutorialDialog :txt="tutorialText"/>
     </v-container>
 </template>

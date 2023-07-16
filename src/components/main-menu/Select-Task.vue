@@ -61,16 +61,11 @@ const toTask = (to: string) => {
 <!-- SCSS ---------------------------------------------------------// -->
 <style lang="scss" scoped>
 .grid {
-    display: grid;
-    gap: 1rem;
-
-
-    grid-template-columns: repeat(
-    auto-fit,
-        minmax(min(max(100% / 3 - 1rem, 10rem), 100%), 1fr)
-  );
-
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
-
 </style>
 

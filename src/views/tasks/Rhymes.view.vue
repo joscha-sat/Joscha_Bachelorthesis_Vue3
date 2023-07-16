@@ -20,7 +20,6 @@ const tutorialText = 'In the middle of the screen you see an image together with
 
     <v-container>
         <RhymesTask/>
-
         <TutorialDialog :txt="tutorialText"/>
     </v-container>
 

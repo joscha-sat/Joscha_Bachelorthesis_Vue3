@@ -4,6 +4,7 @@ import Sentence from '@/classes/Sentence.class';
 import { reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
+import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 
 const words: Sentence[] = reactive([
     { id: 0, text: 'your', placed: false },
@@ -133,6 +134,7 @@ const correctAnswers = (sentence) => {
 
 
 const speechStore = useTextToSpeechStore();
+const soundStore = useSoundHelperStore();
 
 const result = () => {
     const sentence = lines
@@ -143,6 +145,7 @@ const result = () => {
 
     if (correct.value) {
         speechStore.playVoice(sentence + 'is the correct sentence! bravo!');
+        soundStore.playSuccess(0.3);
 
         setTimeout(() => {
             nextWords();
@@ -191,14 +194,15 @@ const nextWords = () => {
                 @drop='drop($event, lineIndex)'
                 @dragover.prevent
             >
-                <span
+                <h2
                     v-if='line.wordIndex !== null'
                     draggable='true'
+                    style='cursor: grab'
                     @click='clearLine(lineIndex)'
                     @dragstart='dragStart($event, line.wordIndex)'
                 >
-                 {{ words[line.wordIndex].text }}
-                  </span>
+                    {{ words[line.wordIndex].text }}
+                </h2>
             </div>
 
             <!--      DISPLAY CURRENT STATE / MAX TASKS      -->
@@ -219,8 +223,11 @@ const nextWords = () => {
                     @dragstart='dragStart($event, i)'
                 >
                     <v-card-title>
-                        {{ word.text }} |
-                        <v-icon color='primary' @click='speechStore.playVoice(word.text)'>mdi-volume-high</v-icon>
+                        <h3>
+                            {{ word.text }} |
+                            <v-icon color='primary' @click='speechStore.playVoice(word.text)'>mdi-volume-high</v-icon>
+                        </h3>
+
                     </v-card-title>
 
                 </v-card>
@@ -228,9 +235,6 @@ const nextWords = () => {
 
         </div>
     </div>
-
-
-    Feedback: {{ correct }}
 
 
 </template>
@@ -250,6 +254,7 @@ const nextWords = () => {
 .words {
     display: flex;
     gap: 0.5rem;
+    margin-top: 1rem;
 
     &:hover {
         cursor: grab;
@@ -270,8 +275,8 @@ const nextWords = () => {
 .line {
     flex: 1;
     border: 2px dashed #ccc;
-    width: 175px;
-    min-height: 50px;
+    width: 250px;
+    min-height: 75px;
     display: flex;
     align-items: center;
     justify-content: center;

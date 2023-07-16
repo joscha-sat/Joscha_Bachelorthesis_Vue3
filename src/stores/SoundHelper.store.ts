@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 
 import bgMusic from '../assets/sounds/bgMusic.mp3';
 
+import success from '../assets/sounds/tasks/success.mp3';
+
 export const useSoundHelperStore = defineStore('soundHelper', {
     state: () => ({
         audioIsPlaying: false,
@@ -11,6 +13,7 @@ export const useSoundHelperStore = defineStore('soundHelper', {
         shouldBgMusicPlay: false,
         bgIsPlaying: false,
         audio: new Audio(bgMusic),
+        successAudio: new Audio(success),
     }),
 
     // GETTER -------------------------------------------------------------------- //>
@@ -24,7 +27,7 @@ export const useSoundHelperStore = defineStore('soundHelper', {
             const seconds = Math.floor(remainingTime % 60);
             return `${minutes}:${seconds.toString().padStart(2, '0')}`;
         },
-        playSound(src) {
+        playSound(src: any) {
             // Avoid playing sound multiple times at once
             if (!this.audioIsPlaying) {
                 this.audioIsPlaying = true;
@@ -49,6 +52,12 @@ export const useSoundHelperStore = defineStore('soundHelper', {
             this.isPlayedOnce = true;
         },
 
+        playSuccess(volume?: number) {
+            if (volume) this.successAudio.volume = volume;
+
+            this.successAudio.play().then();
+        },
+
         onMountedBgMusic() {
             if (!this.bgIsPlaying && this.shouldBgMusicPlay) {
                 this.bgIsPlaying = true;
@@ -57,7 +66,7 @@ export const useSoundHelperStore = defineStore('soundHelper', {
                     this.audio.loop = true;
                 });
 
-                this.audio.bgIsPlaying = false;
+                this.bgIsPlaying = false;
             } else {
                 this.audio.pause();
                 this.audio.currentTime = 0;

@@ -43,13 +43,14 @@ const checkAnswer = () => {
 
     if (answerCorrect.value) {
         audio.value = new Audio(correct);
-        audio.value.volume = 0.5;
+        audio.value.volume = 0.3;
         audio.value.play();
 
         speechStore.playVoice(`Great! ${ syllables[currentCard.value].word } has ${ syllables[currentCard.value].syllables } syllables!`);
 
         setTimeout(() => {
             nextCard();
+            answerCorrect.value = false;
         }, 4000);
     } else if (!answerCorrect.value && enteredSyllableNumber.value) {
         audio.value = new Audio(fail);
@@ -122,6 +123,7 @@ const previousCard = () => {
             <ImageCard
                 v-if='currentCard !== null'
                 :bottom-txt='syllables[currentCard].word'
+                :class='{"input-correct": answerCorrect}'
                 :src='syllables[currentCard].src'
                 has-bottom-txt
                 @clickImg='speak(syllables[currentCard].word)'
@@ -149,11 +151,6 @@ const previousCard = () => {
         <v-btn color='primary' @click='checkAnswer'>
             check my answer
         </v-btn>
-
-        <div class='mt-5'>
-            Feedback: {{ answerCorrect }}
-        </div>
-
     </div>
 
 </template>

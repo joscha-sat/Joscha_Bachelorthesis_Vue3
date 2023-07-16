@@ -1,9 +1,9 @@
 <!-- TS ------------------------------------------------------------//-->
-<script lang="ts" setup>
-import Sentence from "@/classes/Sentence.class";
-import { reactive, ref } from "vue";
-import { useTextToSpeechStore } from "@/stores/TextToSpeech.store";
-import TitleWithSound from "@/components/shared/TitleWithSound.vue";
+<script lang='ts' setup>
+import Sentence from '@/classes/Sentence.class';
+import { reactive, ref } from 'vue';
+import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
+import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 
 const words: Sentence[] = reactive([
     { id: 0, text: 'your', placed: false },
@@ -129,47 +129,47 @@ const correctAnswers = (sentence) => {
             break;
     }
 
-}
+};
 
 
 const speechStore = useTextToSpeechStore();
 
 const result = () => {
     const sentence = lines
-      .map((line) => (line.wordIndex !== null ? words[line.wordIndex].text : ''))
-      .join(' ');
+        .map((line) => (line.wordIndex !== null ? words[line.wordIndex].text : ''))
+        .join(' ');
 
     correctAnswers(sentence);
 
     if (correct.value) {
-        speechStore.playVoice(sentence + 'is the correct sentence! bravo!')
+        speechStore.playVoice(sentence + 'is the correct sentence! bravo!');
 
         setTimeout(() => {
             nextWords();
-            correct.value = false
+            correct.value = false;
             falseSentence.value = false;
-        }, 4000)
+        }, 4000);
     }
     falseSentence.value = lines.every((word) => word.wordIndex != null);
-}
+};
 
 const nextWords = () => {
     // take into account that 4 words have the same index, so the actual length is: length / 4 - 1
     if (currentIndex.value < words.length / 4 - 1) {
         currentIndex.value++;
         lines.forEach((item) => {
-            item.wordIndex = null
-        })
+            item.wordIndex = null;
+        });
     } else {
         lines.forEach((item) => {
-            item.wordIndex = null
+            item.wordIndex = null;
         });
         words.forEach((item) => {
-            item.placed = false
-        })
+            item.placed = false;
+        });
         currentIndex.value = 0;
     }
-}
+};
 
 
 </script>
@@ -177,25 +177,25 @@ const nextWords = () => {
 <!-- HTML ----------------------------------------------------------//-->
 <template>
 
-    <TitleWithSound title="Drag and drop all given words to form a valid sentence"/>
+    <TitleWithSound title='Drag and drop all given words to form a valid sentence' />
 
-    <div class="container">
+    <div class='container'>
         <!--    DROP ZONES    -->
-        <div class="lines">
+        <div class='lines'>
             <div
-              v-for="(line, lineIndex) in lines"
-              :key="lineIndex"
-              :class="['line', { 'active-line': isLineActive(lineIndex), droppable: isLineDroppable(lineIndex), 'line-correct': correct, 'line-incorrect': falseSentence && !correct }]"
-              @dragenter="dragEnter(lineIndex)"
-              @dragleave="dragLeave(lineIndex)"
-              @drop="drop($event, lineIndex)"
-              @dragover.prevent
+                v-for='(line, lineIndex) in lines'
+                :key='lineIndex'
+                :class="['line', { 'active-line': isLineActive(lineIndex), droppable: isLineDroppable(lineIndex), 'line-correct': correct, 'line-incorrect': falseSentence && !correct }]"
+                @dragenter='dragEnter(lineIndex)'
+                @dragleave='dragLeave(lineIndex)'
+                @drop='drop($event, lineIndex)'
+                @dragover.prevent
             >
                 <span
-                  v-if="line.wordIndex !== null"
-                  draggable="true"
-                  @click="clearLine(lineIndex)"
-                  @dragstart="dragStart($event, line.wordIndex)"
+                    v-if='line.wordIndex !== null'
+                    draggable='true'
+                    @click='clearLine(lineIndex)'
+                    @dragstart='dragStart($event, line.wordIndex)'
                 >
                  {{ words[line.wordIndex].text }}
                   </span>
@@ -203,24 +203,24 @@ const nextWords = () => {
 
             <!--      DISPLAY CURRENT STATE / MAX TASKS      -->
 
-            <h3 style="margin-left: 2rem">
+            <h3 style='margin-left: 2rem'>
                 {{ currentIndex + 1 }} / {{ words.length / 4 }}
             </h3>
 
         </div>
 
         <!-- WORDS -->
-        <div class="words">
-            <template v-for="(word, i) in words" :key="i">
+        <div class='words'>
+            <template v-for='(word, i) in words' :key='i'>
                 <v-card
-                  v-if="word.id === currentIndex && !word.placed"
-                  :draggable="!word.placed"
-                  class="word-cards"
-                  @dragstart="dragStart($event, i)"
+                    v-if='word.id === currentIndex && !word.placed'
+                    :draggable='!word.placed'
+                    class='word-cards'
+                    @dragstart='dragStart($event, i)'
                 >
                     <v-card-title>
                         {{ word.text }} |
-                        <v-icon color="primary" @click="speechStore.playVoice(word.text)">mdi-volume-high</v-icon>
+                        <v-icon color='primary' @click='speechStore.playVoice(word.text)'>mdi-volume-high</v-icon>
                     </v-card-title>
 
                 </v-card>
@@ -236,7 +236,7 @@ const nextWords = () => {
 </template>
 
 <!-- SCSS ---------------------------------------------------------// -->
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 
 .container {
     display: flex;

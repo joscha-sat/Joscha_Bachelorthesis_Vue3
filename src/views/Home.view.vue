@@ -70,7 +70,7 @@ const playSound = () => {
     object-fit: contain;
 }
 
-@media screen and (max-width: 1224px) {
+@media screen and (max-width: 1796px) {
     .right {
         display: none;
     }
@@ -83,3 +83,4 @@ const playSound = () => {
 
 
 <!--1224px-->
+<!--1796pxc-->

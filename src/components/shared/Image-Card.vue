@@ -76,7 +76,7 @@ defineEmits(['voice', 'clickImg']);
         filter: brightness(95%);
     }
 
-    ::v-deep .v-img__img {
+    :deep(.v-img__img) {
         padding: 1rem;
     }
 }

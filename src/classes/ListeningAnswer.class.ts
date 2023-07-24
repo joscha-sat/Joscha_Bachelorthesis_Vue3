@@ -1,8 +1,8 @@
 export default class ListeningAnswer {
-    id: number;
+    id!: number;
     src: any;
-    title: string;
-    correct: boolean;
+    title!: string;
+    correct!: boolean;
 
     constructor(params: Partial<ListeningAnswer>) {
         Object.assign(this, params);

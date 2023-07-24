@@ -160,7 +160,8 @@ const drop = () => {
         <div class='slider-container'>
 
             <v-card :class='{"allFound": allFound}' class='top-card' @drop='drop()' @dragover.prevent>
-                <span style='font-size: 200px; font-weight: bold'>{{ letters[currentCardIndex].letter }}</span>
+                <span class='top-letter'>{{ letters[currentCardIndex].letter
+                    }}</span>
             </v-card>
 
             <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
@@ -203,11 +204,17 @@ const drop = () => {
     }
 }
 
+//minmax(min(max(100% / max-columns – gap, ideal-size), 100%), 1fr)
 .image-flex {
     margin-top: 5rem;
-    justify-content: center;
-    display: flex;
-    gap: 2rem;
+    display: grid;
+    place-content: center;
+    place-items: center;
+    grid-template-columns: repeat(
+    auto-fit,
+            minmax(min(max(100% / 5 - 1rem, 15rem), 100%), 1fr)
+  );
+    gap: 1rem;
 }
 
 .top-card {
@@ -216,6 +223,12 @@ const drop = () => {
     align-items: center;
     height: 15rem;
     padding: 2rem;
+    word-break: keep-all;
+
+    .top-letter {
+        font-size: clamp(7rem, 13dvw, 13rem);
+        font-weight: bold;
+    }
 }
 
 .allFound {

@@ -36,7 +36,6 @@ defineEmits(['voice', 'clickImg']);
         <v-img
             :src='src'
             class='img'
-
             contain
             height='300px'
             min-width='300px'

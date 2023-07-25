@@ -6,7 +6,7 @@
                 <!-- HOME -->
                 <v-tooltip location='bottom' text='Home'>
                     <template v-slot:activator='{ props }'>
-                        <v-btn :to='"/home"' class='btn' icon='mdi-home' v-bind='props' variant='plain'></v-btn>
+                        <v-btn :to='"/home"' class='myBtnBorder' icon='mdi-home' v-bind='props' variant='plain'></v-btn>
                     </template>
                 </v-tooltip>
             </template>
@@ -15,14 +15,15 @@
                 <!-- SETTINGS -->
                 <v-tooltip location='bottom' text='Settings'>
                     <template v-slot:activator='{ props }'>
-                        <v-btn :to='"/settings"' class='btn' icon='mdi-cog' v-bind='props' variant='plain'></v-btn>
+                        <v-btn :to='"/settings"' class='myBtnBorder' icon='mdi-cog' v-bind='props'
+                               variant='plain'></v-btn>
                     </template>
                 </v-tooltip>
 
                 <!-- THEME -->
                 <v-tooltip location='bottom' text='Change Theme'>
                     <template v-slot:activator='{ props }'>
-                        <v-btn class='btn' icon='mdi-theme-light-dark' style='margin-left: 1rem' v-bind='props'
+                        <v-btn class='myBtnBorder' icon='mdi-theme-light-dark' style='margin-left: 1rem' v-bind='props'
                                variant='plain'
                                @click='toggleTheme()'></v-btn>
                     </template>
@@ -31,7 +32,7 @@
                 <!-- MASCOT -->
                 <v-tooltip location='bottom' text='Change companion'>
                     <template v-slot:activator='{ props }'>
-                        <v-btn :icon=' isDog ? "mdi-cat" : "mdi-dog"' class='btn' style='margin-left: 1rem'
+                        <v-btn :icon=' isDog ? "mdi-cat" : "mdi-dog"' class='myBtnBorder' style='margin-left: 1rem'
                                v-bind='props' variant='plain'
                                @click='toggleMascot()'>
                         </v-btn>
@@ -95,7 +96,7 @@ onMounted(() => {
 <style lang='scss'>
 @use "style" as *;
 
-.btn {
+.myBtnBorder {
     border: 1px solid #e1e1e1 !important;
 }
 </style>

@@ -48,7 +48,7 @@ const playSound = () => {
 .container {
     display: flex;
     place-content: center;
-    place-items: center;
+    place-items: start;
     gap: 1rem;
     margin-top: 1.5rem;
 }
@@ -63,6 +63,7 @@ const playSound = () => {
 .right {
     display: flex;
     justify-content: flex-end;
+    max-width: 350px;
 }
 
 .image {
@@ -80,7 +81,3 @@ const playSound = () => {
 }
 
 </style>
-
-
-<!--1224px-->
-<!--1796pxc-->

@@ -116,20 +116,23 @@ const txtToSpeech = useTextToSpeechStore();
 
         </div>
 
-        <!--    USER TEXT INPUT    -->
+        <div class='input_btn'>
+            <!--    USER TEXT INPUT    -->
+            <v-text-field
+                v-model='enteredWord'
+                append-icon='mdi-volume-high'
+                class='input mt-8'
+                label='Enter your rhyme'
+                @click:append='txtToSpeech.playVoice(enteredWord)'
+            >
+            </v-text-field>
 
-        <v-text-field
-            v-model='enteredWord'
-            append-icon='mdi-volume-high'
-            class='input mt-8'
-            label='Enter your rhyme'
-            @click:append='txtToSpeech.playVoice(enteredWord)'
-        >
-        </v-text-field>
+
+            <!--    CHECK RESULT BUTTON    -->
+            <v-btn class='btn' color='primary' @click='check(currentCard)'>Check if my word rhymes</v-btn>
+        </div>
 
 
-        <!--    CHECK RESULT BUTTON    -->
-        <v-btn color='primary' @click='check(currentCard)'>Check if my word rhymes</v-btn>
     </div>
 </template>
 
@@ -147,8 +150,9 @@ const txtToSpeech = useTextToSpeechStore();
         margin-top: 2rem;
     }
 
-    .input {
+    .input_btn {
         margin: auto;
+        width: min(40rem, 100%);
     }
 
     .itRhymes {

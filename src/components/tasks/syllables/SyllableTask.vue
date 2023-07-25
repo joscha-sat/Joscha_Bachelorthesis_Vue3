@@ -134,19 +134,21 @@ const previousCard = () => {
             </h3>
         </div>
 
-        <!--   NUMBER OF SYLLABLES INPUT     -->
-        <v-text-field
-            v-model='enteredSyllableNumber'
-            :class="{'input-correct:': answerCorrect}"
-            class='mt-8 input'
-            placeholder='Enter the number of syllables!'
-            type='number'
-        >
-        </v-text-field>
+        <div class='input_btn'>
+            <!--   NUMBER OF SYLLABLES INPUT     -->
+            <v-text-field
+                v-model='enteredSyllableNumber'
+                :class="{'input-correct:': answerCorrect}"
+                class='mt-8 input'
+                placeholder='Enter the number of syllables!'
+                type='number'
+            >
+            </v-text-field>
 
-        <v-btn color='primary' @click='checkAnswer'>
-            check my answer
-        </v-btn>
+            <v-btn color='primary' @click='checkAnswer'>
+                check my answer
+            </v-btn>
+        </div>
     </div>
 
 </template>
@@ -165,8 +167,9 @@ const previousCard = () => {
         margin-top: 2rem;
     }
 
-    .input {
+    .input_btn {
         margin: auto;
+        width: min(40rem, 100%);
     }
 
     .input-correct {

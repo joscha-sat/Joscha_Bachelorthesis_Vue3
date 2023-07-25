@@ -207,15 +207,18 @@ const drop = () => {
 //minmax(min(max(100% / max-columns – gap, ideal-size), 100%), 1fr)
 .image-flex {
     margin-top: 5rem;
-    display: grid;
+
     place-content: center;
     place-items: center;
+
+    // Grid with a maximum of 5 columns, no matter the screen width
+    display: grid;
     grid-template-columns: repeat(
-    auto-fit,
-            minmax(min(max(100% / 5 - 1rem, 15rem), 100%), 1fr)
+    auto-fit, minmax(min(max(100% / 5 - 1rem, 15rem), 100%), 1fr)
   );
     gap: 1rem;
 }
+
 
 .top-card {
     display: flex;
@@ -226,6 +229,7 @@ const drop = () => {
     word-break: keep-all;
 
     .top-letter {
+        // minimum 7rem, average 13dynamic viewport width, maximum 13rem
         font-size: clamp(7rem, 13dvw, 13rem);
         font-weight: bold;
     }

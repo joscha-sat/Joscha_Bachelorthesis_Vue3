@@ -4,33 +4,35 @@
 
             <template #prepend>
                 <!-- HOME -->
-                <v-tooltip location="bottom" text="Home">
-                    <template v-slot:activator="{ props }">
-                        <v-btn :to='"/home"' icon='mdi-home' v-bind="props" variant='plain'></v-btn>
+                <v-tooltip location='bottom' text='Home'>
+                    <template v-slot:activator='{ props }'>
+                        <v-btn :to='"/home"' class='btn' icon='mdi-home' v-bind='props' variant='plain'></v-btn>
                     </template>
                 </v-tooltip>
             </template>
 
             <template #append>
                 <!-- SETTINGS -->
-                <v-tooltip location="bottom" text="Settings">
-                    <template v-slot:activator="{ props }">
-                        <v-btn :to='"/settings"' icon='mdi-cog' v-bind="props" variant='plain'></v-btn>
+                <v-tooltip location='bottom' text='Settings'>
+                    <template v-slot:activator='{ props }'>
+                        <v-btn :to='"/settings"' class='btn' icon='mdi-cog' v-bind='props' variant='plain'></v-btn>
                     </template>
                 </v-tooltip>
 
                 <!-- THEME -->
-                <v-tooltip location="bottom" text="Change Theme">
-                    <template v-slot:activator="{ props }">
-                        <v-btn icon='mdi-theme-light-dark' v-bind="props" variant='plain'
+                <v-tooltip location='bottom' text='Change Theme'>
+                    <template v-slot:activator='{ props }'>
+                        <v-btn class='btn' icon='mdi-theme-light-dark' style='margin-left: 1rem' v-bind='props'
+                               variant='plain'
                                @click='toggleTheme()'></v-btn>
                     </template>
                 </v-tooltip>
 
                 <!-- MASCOT -->
-                <v-tooltip location="bottom" text="Change companion">
-                    <template v-slot:activator="{ props }">
-                        <v-btn :icon=' isDog ? "mdi-cat" : "mdi-dog"' v-bind="props" variant='plain'
+                <v-tooltip location='bottom' text='Change companion'>
+                    <template v-slot:activator='{ props }'>
+                        <v-btn :icon=' isDog ? "mdi-cat" : "mdi-dog"' class='btn' style='margin-left: 1rem'
+                               v-bind='props' variant='plain'
                                @click='toggleMascot()'>
                         </v-btn>
                     </template>
@@ -38,25 +40,25 @@
             </template>
         </v-app-bar>
         <v-main>
-            <router-view/>
+            <router-view />
         </v-main>
     </v-app>
 </template>
 
 <script lang='ts' setup>
 import { useTheme } from 'vuetify';
-import { useTextToSpeechStore } from "@/stores/TextToSpeech.store";
-import { storeToRefs } from "pinia";
-import { useMascotStore } from "@/stores/mascot.store";
-import { onMounted } from "vue";
-import { useOnLoadHelperStore } from "@/stores/OnLoadHelper.store";
+import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
+import { storeToRefs } from 'pinia';
+import { useMascotStore } from '@/stores/mascot.store';
+import { onMounted } from 'vue';
+import { useOnLoadHelperStore } from '@/stores/OnLoadHelper.store';
 
 const theme = useTheme();
 const initialLoadingHelperStore = useOnLoadHelperStore();
 const speechStore = useTextToSpeechStore();
 
 const mascotStore = useMascotStore();
-const { isDog } = storeToRefs(mascotStore)
+const { isDog } = storeToRefs(mascotStore);
 
 
 const toggleTheme = () => {
@@ -65,9 +67,9 @@ const toggleTheme = () => {
 };
 
 const toggleMascot = () => {
-    isDog.value = !isDog.value
-    localStorage.setItem('mascot', isDog.value ? 'dog' : 'cat')
-}
+    isDog.value = !isDog.value;
+    localStorage.setItem('mascot', isDog.value ? 'dog' : 'cat');
+};
 
 onMounted(() => {
     // set primary color on load --> from old session (localStorage)
@@ -92,5 +94,10 @@ onMounted(() => {
 
 <style lang='scss'>
 @use "style" as *;
+
+.btn {
+    border: 1px solid #e1e1e1 !important;
+}
 </style>
+
 

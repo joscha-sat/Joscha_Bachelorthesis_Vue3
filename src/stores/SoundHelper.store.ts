@@ -32,7 +32,6 @@ export const useSoundHelperStore = defineStore('soundHelper', {
             // Avoid playing sound multiple times at once
             if (!this.audioIsPlaying) {
                 this.audioIsPlaying = true;
-
                 const audio = new Audio(src);
 
                 audio.addEventListener('loadedmetadata', () => {
@@ -45,12 +44,11 @@ export const useSoundHelperStore = defineStore('soundHelper', {
 
                 audio.addEventListener('ended', () => {
                     this.audioIsPlaying = false;
+                    this.isPlayedOnce = true;
                 });
 
                 audio.play().then();
             }
-
-            this.isPlayedOnce = true;
         },
 
         playSuccess(volume?: number) {

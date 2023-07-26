@@ -1,42 +1,42 @@
 <!-- TS ------------------------------------------------------------//-->
-<script lang="ts" setup>
-import rainSound from '../../../assets/sounds/tasks/listening/rain.mp3'
-import carSound from '../../../assets/sounds/tasks/listening/car.mp3'
-import hammerSound from '../../../assets/sounds/tasks/listening/hammer.mp3'
-import elephantSound from '../../../assets/sounds/tasks/listening/elephant.mp3'
-import pingpongSound from '../../../assets/sounds/tasks/listening/pingpong.mp3'
+<script lang='ts' setup>
+import rainSound from '../../../assets/sounds/tasks/listening/rain.mp3';
+import carSound from '../../../assets/sounds/tasks/listening/car.mp3';
+import hammerSound from '../../../assets/sounds/tasks/listening/hammer.mp3';
+import elephantSound from '../../../assets/sounds/tasks/listening/elephant.mp3';
+import pingpongSound from '../../../assets/sounds/tasks/listening/pingpong.mp3';
 
-import rainImage from '../../../assets/images/tasks/listening/rain.jpg'
-import windImage from '../../../assets/images/tasks/listening/wind.jpg'
-import fireImage from '../../../assets/images/tasks/listening/fire.png'
+import rainImage from '../../../assets/images/tasks/listening/rain.jpg';
+import windImage from '../../../assets/images/tasks/listening/wind.jpg';
+import fireImage from '../../../assets/images/tasks/listening/fire.png';
 
-import carImg from '../../../assets/images/tasks/listening/car.png'
-import airplaneImg from '../../../assets/images/tasks/listening/airplane.png'
-import shipImg from '../../../assets/images/tasks/listening/ship.png'
+import carImg from '../../../assets/images/tasks/listening/car.png';
+import airplaneImg from '../../../assets/images/tasks/listening/airplane.png';
+import shipImg from '../../../assets/images/tasks/listening/ship.png';
 
-import hammerImg from '../../../assets/images/tasks/listening/hammer.png'
-import scissorImg from '../../../assets/images/tasks/listening/scissors.png'
-import sawImg from '../../../assets/images/tasks/listening/saw.png'
+import hammerImg from '../../../assets/images/tasks/listening/hammer.png';
+import scissorImg from '../../../assets/images/tasks/listening/scissors.png';
+import sawImg from '../../../assets/images/tasks/listening/saw.png';
 
-import lionImg from '../../../assets/images/tasks/listening/lion.png'
-import horseImg from '../../../assets/images/tasks/listening/horse.png'
-import elephantImg from '../../../assets/images/tasks/listening/elephant.png'
+import lionImg from '../../../assets/images/tasks/listening/lion.png';
+import horseImg from '../../../assets/images/tasks/listening/horse.png';
+import elephantImg from '../../../assets/images/tasks/listening/elephant.png';
 
-import tabletennisImg from '../../../assets/images/tasks/listening/table-tennis.png'
-import tennisImg from '../../../assets/images/tasks/listening/tennis.png'
-import badmintonImg from '../../../assets/images/tasks/listening/badminton.png'
+import tabletennisImg from '../../../assets/images/tasks/listening/table-tennis.png';
+import tennisImg from '../../../assets/images/tasks/listening/tennis.png';
+import badmintonImg from '../../../assets/images/tasks/listening/badminton.png';
 
-import success from '../../../assets/sounds/tasks/success.mp3'
-import fail from '../../../assets/sounds/tasks/fail.mp3'
-import { useSoundHelperStore } from "@/stores/SoundHelper.store";
-import router from "@/router";
-import ListeningAnswer from "@/classes/ListeningAnswer.class";
-import { onMounted, ref, Ref } from "vue";
-import { useTextToSpeechStore } from "@/stores/TextToSpeech.store";
-import { storeToRefs } from "pinia";
-import TitleWithSound from "@/components/shared/TitleWithSound.vue";
-import ListeningPlaySound from "@/components/shared/ListeningPlaySound.vue";
-import ImageCard from "@/components/shared/Image-Card.vue";
+import success from '../../../assets/sounds/tasks/success.mp3';
+import fail from '../../../assets/sounds/tasks/fail.mp3';
+import { useSoundHelperStore } from '@/stores/SoundHelper.store';
+import router from '@/router';
+import ListeningAnswer from '@/classes/ListeningAnswer.class';
+import { onMounted, ref, Ref } from 'vue';
+import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
+import { storeToRefs } from 'pinia';
+import TitleWithSound from '@/components/shared/TitleWithSound.vue';
+import ListeningPlaySound from '@/components/shared/ListeningPlaySound.vue';
+import ImageCard from '@/components/shared/Image-Card.vue';
 
 
 const speechStore = useTextToSpeechStore();
@@ -63,66 +63,65 @@ const answers: Ref<ListeningAnswer[]> = ref([
     { id: 4, src: tennisImg, title: 'tennis', correct: false },
     { id: 4, src: badmintonImg, title: 'badminton', correct: false },
     { id: 4, src: tabletennisImg, title: 'table-tennis', correct: true },
-])
+]);
 
 const clickImage = (clickedItem) => {
     const audio = ref();
     if (clickedItem.correct) {
-        audio.value = new Audio(success)
+        audio.value = new Audio(success);
         audio.value.play();
         if (currentIndex.value < answers.value.length / 3 - 1) {
             setTimeout(() => {
                 nextSound();
-                soundStore.playSound(sounds.value[currentIndex.value])
-            }, 3500)
+                soundStore.playSound(sounds.value[currentIndex.value]);
+            }, 3500);
         } else {
             setTimeout(() => {
                 router.push({
-                    path: '/home'
-                })
-            }, 3500)
+                    path: '/home',
+                });
+            }, 3500);
 
         }
 
     } else {
-        audio.value = new Audio(fail)
-        audio.value.play()
-        isPlayedOnce.value = false;
+        audio.value = new Audio(fail);
+        audio.value.play();
         setTimeout(() => {
-            soundStore.playSound(sounds.value[currentIndex.value])
-        }, 2500)
+            soundStore.playSound(sounds.value[currentIndex.value]);
+        }, 2500);
     }
-}
+};
 
 const nextSound = () => {
     if (currentIndex.value < answers.value.length / 3 - 1) {
         currentIndex.value++;
-        isPlayedOnce.value = false
+        isPlayedOnce.value = false;
     } else {
         currentIndex.value = 0;
-        isPlayedOnce.value = false
+        isPlayedOnce.value = false;
     }
-}
+};
 
 const soundStore = useSoundHelperStore();
-const { audioIsPlaying, isPlayedOnce } = storeToRefs(soundStore)
+const { isPlayedOnce } = storeToRefs(soundStore);
 
 onMounted(() => {
-    isPlayedOnce.value = false
-})
+    isPlayedOnce.value = false;
+});
 
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->
 <template>
-    <div class="sound-container">
+    <div class='sound-container'>
 
         <h3>
             Remaining duration: {{ soundStore.formatDuration() }}
         </h3>
 
         <!--  SOUND TO PLAY  -->
-        <ListeningPlaySound :sound-src="sounds[currentIndex]"/>
+        <ListeningPlaySound :sound-src='sounds[currentIndex]' />
 
         <h3>
             {{ currentIndex + 1 }} / {{ answers.length / 3 }}
@@ -131,20 +130,19 @@ onMounted(() => {
     </div>
 
     <!--  TEXT WHAT TO DO  -->
-    <TitleWithSound title="Listen to the sound, then select what you have heard!"/>
+    <TitleWithSound title='Listen to the sound, then select what you have heard!' />
 
-    <template v-if="!audioIsPlaying && isPlayedOnce">
-
+    <template v-if='isPlayedOnce'>
         <!-- ANSWERS -->
-        <div class="container">
-            <template v-for="(item, i) in answers" :key="i">
+        <div class='container'>
+            <template v-for='(item, i) in answers' :key='i'>
                 <ImageCard
-                  v-if="item.id === currentIndex"
-                  :bottom-txt="item.title"
-                  :src="item.src"
-                  has-bottom-txt
-                  @clickImg="clickImage(item)"
-                  @voice="speechStore.playVoice(item.title)"
+                    v-if='item.id === currentIndex'
+                    :bottom-txt='item.title'
+                    :src='item.src'
+                    has-bottom-txt
+                    @clickImg='clickImage(item)'
+                    @voice='speechStore.playVoice(item.title)'
                 />
             </template>
         </div>
@@ -153,7 +151,7 @@ onMounted(() => {
 </template>
 
 <!-- SCSS ---------------------------------------------------------// -->
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .container {
     display: flex;
     justify-content: center;

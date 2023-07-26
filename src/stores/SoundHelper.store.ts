@@ -15,6 +15,7 @@ export const useSoundHelperStore = defineStore('soundHelper', {
         audio: new Audio(bgMusic),
         successAudio: new Audio(success),
         failAudio: new Audio(fail),
+        enterAudio: new Audio(),
     }),
 
     // GETTER -------------------------------------------------------------------- //>
@@ -32,22 +33,31 @@ export const useSoundHelperStore = defineStore('soundHelper', {
             // Avoid playing sound multiple times at once
             if (!this.audioIsPlaying) {
                 this.audioIsPlaying = true;
-                const audio = new Audio(src);
+                this.enterAudio = new Audio(src);
 
-                audio.addEventListener('loadedmetadata', () => {
-                    this.audioDuration = audio.duration;
+                this.enterAudio.addEventListener('loadedmetadata', () => {
+                    this.audioDuration = this.enterAudio.duration;
                 });
 
-                audio.addEventListener('timeupdate', () => {
-                    this.currentTime = audio.currentTime;
+                this.enterAudio.addEventListener('timeupdate', () => {
+                    this.currentTime = this.enterAudio.currentTime;
                 });
 
-                audio.addEventListener('ended', () => {
+                this.enterAudio.addEventListener('ended', () => {
                     this.audioIsPlaying = false;
                     this.isPlayedOnce = true;
                 });
 
-                audio.play().then();
+                this.enterAudio.play().then();
+            }
+        },
+
+        stopEnteredSound() {
+            if (this.enterAudio) {
+                this.enterAudio.pause();
+                this.enterAudio = new Audio(); // Reset the audio object after pausing
+                this.audioIsPlaying = false; // Reset the audioIsPlaying flag
+                this.isPlayedOnce = false;
             }
         },
 

@@ -70,6 +70,7 @@ const clickImage = (clickedItem) => {
     if (clickedItem.correct) {
         audio.value = new Audio(success);
         audio.value.play();
+        soundStore.stopEnteredSound();
         if (currentIndex.value < answers.value.length / 3 - 1) {
             setTimeout(() => {
                 nextSound();

@@ -5,8 +5,6 @@ import { reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
-import { useMascotStore } from '@/stores/mascot.store';
-import { storeToRefs } from 'pinia';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 
 const words: Sentence[] = reactive([

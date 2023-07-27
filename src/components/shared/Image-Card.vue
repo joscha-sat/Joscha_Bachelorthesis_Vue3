@@ -10,6 +10,10 @@ defineProps({
         default: false,
     },
     bottomTxt: String,
+    bothTexts: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 defineEmits(['voice', 'clickImg']);
@@ -21,13 +25,13 @@ defineEmits(['voice', 'clickImg']);
 
         <!--    TOP TITLE    -->
         <v-card-title
-            v-if='!hasBottomTxt'
+            v-if='!hasBottomTxt || bothTexts'
             style='display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; overflow-wrap: break-word'
         >
 
             {{ title }}
 
-            <v-btn color='primary' @click="$emit('voice')">
+            <v-btn v-if='!hasBottomTxt || !bothTexts' color='primary' @click="$emit('voice')">
                 <v-icon>mdi-volume-high</v-icon>
             </v-btn>
         </v-card-title>

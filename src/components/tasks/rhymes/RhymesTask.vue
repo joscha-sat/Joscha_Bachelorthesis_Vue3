@@ -21,15 +21,16 @@ interface RhymeResponse {
 interface WordsToRhyme {
     id: number,
     src: any,
-    title: string
+    title: string,
+    rhymePhoneme: string,
 }
 
 const wordsToBeRhymedTo: Ref<WordsToRhyme[]> = ref([
-    { id: 0, src: mouseSrc, title: 'Mouse' },
-    { id: 1, src: ballSrc, title: 'Ball' },
-    { id: 2, src: treeSrc, title: 'Tree' },
-    { id: 3, src: sunSrc, title: 'Sun' },
-    { id: 4, src: fishSrc, title: 'Fish' },
+    { id: 0, src: mouseSrc, title: 'Mouse', rhymePhoneme: 'rhyme phoneme: -ouse' },
+    { id: 1, src: ballSrc, title: 'Ball', rhymePhoneme: 'rhyme phoneme: -all' },
+    { id: 2, src: treeSrc, title: 'Tree', rhymePhoneme: 'rhyme phoneme: -ee' },
+    { id: 3, src: sunSrc, title: 'Sun', rhymePhoneme: 'rhyme phoneme: -un' },
+    { id: 4, src: fishSrc, title: 'Fish', rhymePhoneme: 'rhyme phoneme: -ish' },
 ]);
 
 const rhymesArray = ref();
@@ -101,6 +102,8 @@ const txtToSpeech = useTextToSpeechStore();
                 :bottom-txt='wordsToBeRhymedTo[currentCard].title'
                 :class='{"itRhymes": doesItRhyme}'
                 :src='wordsToBeRhymedTo[currentCard].src'
+                :title='wordsToBeRhymedTo[currentCard].rhymePhoneme'
+                both-texts
                 has-bottom-txt
                 @clickImg='txtToSpeech.playVoice(wordsToBeRhymedTo[currentCard].title)'
                 @voice='txtToSpeech.playVoice(wordsToBeRhymedTo[currentCard].title)'
@@ -126,7 +129,6 @@ const txtToSpeech = useTextToSpeechStore();
                 @click:append='txtToSpeech.playVoice(enteredWord)'
             >
             </v-text-field>
-
 
             <!--    CHECK RESULT BUTTON    -->
             <v-btn class='btn' color='primary' @click='check(currentCard)'>Check if my word rhymes</v-btn>

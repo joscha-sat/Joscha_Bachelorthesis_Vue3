@@ -22,7 +22,6 @@ export const useTextToSpeechStore = defineStore('textToSpeech', {
         // load voices onMounted in component
         async onMounted() {
             await this.loadVoices();
-            console.log(this.voices);
 
             // only display german and english
             this.filteredVoices = this.voices.filter((voice) => voice.lang === 'en-GB');

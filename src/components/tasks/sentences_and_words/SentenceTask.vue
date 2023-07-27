@@ -6,6 +6,7 @@ import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
+import { useMascotStore } from '@/stores/mascot.store';
 
 const words: Sentence[] = reactive([
     { id: 0, text: 'your', placed: false },
@@ -153,6 +154,7 @@ const result = () => {
     if (correct.value) {
         speechStore.playVoice(sentence + 'is the correct sentence! bravo!');
         soundStore.playSuccess(0.3);
+        useMascotStore().playMascotSound();
 
         setTimeout(() => {
             nextWords();

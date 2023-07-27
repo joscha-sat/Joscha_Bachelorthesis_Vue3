@@ -11,6 +11,7 @@ import { ref, Ref } from 'vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
+import { useMascotStore } from '@/stores/mascot.store';
 
 interface RhymeResponse {
     word: string,

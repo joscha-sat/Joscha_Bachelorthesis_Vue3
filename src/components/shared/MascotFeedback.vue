@@ -24,11 +24,11 @@ defineProps({
 
         <!--    TEXT    -->
 
-        <span v-if='correctBoolean'>
+        <span v-if='correctBoolean' class='correct'>
             Your answer is correct, awesome!
         </span>
 
-        <span v-if='!correctBoolean'>
+        <span v-if='!correctBoolean' class='incorrect'>
             Your answer is incorrect, try again!
         </span>
     </div>
@@ -44,6 +44,14 @@ defineProps({
     justify-content: center;
     align-items: center;
     gap: 2rem;
+}
+
+.incorrect {
+    color: lightcoral;
+}
+
+.correct {
+    color: #78af78;
 }
 
 </style>

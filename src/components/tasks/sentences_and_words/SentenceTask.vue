@@ -137,12 +137,13 @@ const correctAnswers = (sentence) => {
             correct.value = true;
             break;
     }
-
 };
 
 
 const speechStore = useTextToSpeechStore();
 const soundStore = useSoundHelperStore();
+
+const fullSentenceOnce = ref(false);
 
 const result = () => {
     const sentence = lines
@@ -155,6 +156,7 @@ const result = () => {
         speechStore.playVoice(sentence + 'is the correct sentence! bravo!');
         soundStore.playSuccess(0.3);
         useMascotStore().playMascotSound();
+        fullSentenceOnce.value = false;
 
         setTimeout(() => {
             nextWords();
@@ -163,6 +165,11 @@ const result = () => {
         }, 4000);
     }
     falseSentence.value = lines.every((word) => word.wordIndex != null);
+
+    if (falseSentence.value && !fullSentenceOnce.value && !correct.value) {
+        soundStore.playFail();
+        fullSentenceOnce.value = true;
+    }
 };
 
 const nextWords = () => {

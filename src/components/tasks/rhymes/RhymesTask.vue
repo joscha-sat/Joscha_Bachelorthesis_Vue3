@@ -11,6 +11,7 @@ import { ref, Ref } from 'vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
+import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 
 interface RhymeResponse {
     word: string,
@@ -36,7 +37,7 @@ const wordsToBeRhymedTo: Ref<WordsToRhyme[]> = ref([
 const rhymesArray = ref();
 const enteredWord = ref();
 const currentCard = ref(0);
-const doesItRhyme = ref();
+const doesItRhyme = ref(null);
 const soundStore = useSoundHelperStore();
 
 const check = async (currentCard: number) => {
@@ -58,6 +59,9 @@ const check = async (currentCard: number) => {
     } else if (!doesItRhyme.value && enteredWord.value) {
         soundStore.playFail(0.3);
         txtToSpeech.playVoice(`either I do not know your word or they do not rhyme, try again!`);
+        setTimeout(() => {
+            doesItRhyme.value = null;
+        }, 3500);
     }
 
 };
@@ -88,58 +92,73 @@ const txtToSpeech = useTextToSpeechStore();
 
 <!-- HTML ----------------------------------------------------------//-->
 <template>
-    <div class='container'>
+    <div class='allContainer'>
 
-        <TitleWithSound title='Find a word that rhymes to the given word!' />
-
-        <div class='slider-container'>
-            <!--    PREVIOUS CARD BUTTON   -->
-            <v-btn :icon="'mdi-arrow-left-thick'" color='primary' @click='previousCard()'></v-btn>
-
-            <!--    CARD WORD TO RHYME TO    -->
-            <ImageCard
-                v-if='currentCard !== null'
-                :bottom-txt='wordsToBeRhymedTo[currentCard].title'
-                :class='{"itRhymes": doesItRhyme}'
-                :src='wordsToBeRhymedTo[currentCard].src'
-                :title='wordsToBeRhymedTo[currentCard].rhymePhoneme'
-                both-texts
-                has-bottom-txt
-                @clickImg='txtToSpeech.playVoice(wordsToBeRhymedTo[currentCard].title)'
-                @voice='txtToSpeech.playVoice(wordsToBeRhymedTo[currentCard].title)'
-            />
-
-            <!--    NEXT CARD BUTTON    -->
-            <v-btn :icon="'mdi-arrow-right-thick'" color='primary' @click='nextCard()'></v-btn>
-
-            <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
-            <h3>
-                {{ currentCard + 1 }} / {{ wordsToBeRhymedTo.length }}
-            </h3>
-
+        <!--    MASCOT    -->
+        <div style='display: flex; align-items: center'>
+            <MascotFeedback :correct-boolean='doesItRhyme' :show-boolean='doesItRhyme !== null' />
         </div>
 
-        <div class='input_btn'>
-            <!--    USER TEXT INPUT    -->
-            <v-text-field
-                v-model='enteredWord'
-                append-icon='mdi-volume-high'
-                class='input mt-8'
-                label='Enter your rhyme'
-                @click:append='txtToSpeech.playVoice(enteredWord)'
-            >
-            </v-text-field>
+        <!--   CONTENT     -->
+        <div class='container'>
+            <TitleWithSound title='Find a word that rhymes to the given word!' />
 
-            <!--    CHECK RESULT BUTTON    -->
-            <v-btn class='btn' color='primary' @click='check(currentCard)'>Check if my word rhymes</v-btn>
+            <div class='slider-container'>
+                <!--    PREVIOUS CARD BUTTON   -->
+                <v-btn :icon="'mdi-arrow-left-thick'" color='primary' @click='previousCard()'></v-btn>
+
+                <!--    CARD WORD TO RHYME TO    -->
+                <ImageCard
+                    v-if='currentCard !== null'
+                    :bottom-txt='wordsToBeRhymedTo[currentCard].title'
+                    :class='{"itRhymes": doesItRhyme}'
+                    :src='wordsToBeRhymedTo[currentCard].src'
+                    :title='wordsToBeRhymedTo[currentCard].rhymePhoneme'
+                    both-texts
+                    has-bottom-txt
+                    @clickImg='txtToSpeech.playVoice(wordsToBeRhymedTo[currentCard].title)'
+                    @voice='txtToSpeech.playVoice(wordsToBeRhymedTo[currentCard].title)'
+                />
+
+                <!--    NEXT CARD BUTTON    -->
+                <v-btn :icon="'mdi-arrow-right-thick'" color='primary' @click='nextCard()'></v-btn>
+
+                <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
+                <h3>
+                    {{ currentCard + 1 }} / {{ wordsToBeRhymedTo.length }}
+                </h3>
+
+            </div>
+
+            <div class='input_btn'>
+                <!--    USER TEXT INPUT    -->
+                <v-text-field
+                    v-model='enteredWord'
+                    append-icon='mdi-volume-high'
+                    class='input mt-8'
+                    label='Enter your rhyme'
+                    @click:append='txtToSpeech.playVoice(enteredWord)'
+                >
+                </v-text-field>
+
+                <!--    CHECK RESULT BUTTON    -->
+                <v-btn class='btn' color='primary' @click='check(currentCard)'>Check if my word rhymes</v-btn>
+            </div>
         </div>
 
-
+        <div></div>
     </div>
+
+
 </template>
 
 <!-- SCSS ---------------------------------------------------------// -->
 <style lang='scss' scoped>
+.allContainer {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* 20% - 80% - 20% */
+}
+
 .container {
     width: min(60rem, 100%);
     margin: auto;

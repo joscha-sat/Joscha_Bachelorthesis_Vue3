@@ -19,8 +19,8 @@ defineProps({
 
         <!--    IMG    -->
 
-        <v-img v-if='isDog' :src='correctBoolean? happyDogImg : sadDogImg' height='300px' width='300px'></v-img>
-        <v-img v-if='!isDog' :src='correctBoolean? happyCatImg : sadCatImg' height='300px' width='300px'></v-img>
+        <img v-if='isDog' :src='correctBoolean? happyDogImg : sadDogImg' alt='dog' class='img'>
+        <img v-if='!isDog' :src='correctBoolean? happyCatImg : sadCatImg' alt='cat' class='img' />
 
         <!--    TEXT    -->
 
@@ -54,4 +54,8 @@ defineProps({
     color: #78af78;
 }
 
+.img {
+    max-width: 300px;
+    object-fit: contain;
+}
 </style>

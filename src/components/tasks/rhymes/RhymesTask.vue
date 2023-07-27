@@ -156,7 +156,7 @@ const txtToSpeech = useTextToSpeechStore();
 <style lang='scss' scoped>
 .allContainer {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* 20% - 80% - 20% */
+    grid-template-columns: 1fr 2fr 1fr;
 }
 
 .container {

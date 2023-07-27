@@ -16,6 +16,7 @@ import { storeToRefs } from 'pinia';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
+import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 
 const syllables: Syllable[] = reactive([
     { id: 0, syllables: 3, word: 'Banana', src: banana },
@@ -36,7 +37,7 @@ const maxRepetitions = ref(3);
 let playCount = 0;
 
 const enteredSyllableNumber = ref();
-const answerCorrect = ref(false);
+const answerCorrect = ref(null);
 
 const checkAnswer = () => {
     answerCorrect.value = Number(enteredSyllableNumber.value) === syllables[currentCard.value].syllables;
@@ -47,7 +48,7 @@ const checkAnswer = () => {
 
         setTimeout(() => {
             nextCard();
-            answerCorrect.value = false;
+            answerCorrect.value = null;
         }, 4000);
 
     } else if (!answerCorrect.value && enteredSyllableNumber.value) {
@@ -109,52 +110,67 @@ const previousCard = () => {
 
 <!-- HTML ----------------------------------------------------------//-->
 <template>
-    <div class='container'>
+    <div class='allContainer'>
 
-        <TitleWithSound title='How many syllables does the word have?' />
-
-        <div class='slider-container'>
-            <v-btn :icon="'mdi-arrow-left-thick'" color='primary' @click='previousCard()'></v-btn>
-
-            <ImageCard
-                v-if='currentCard !== null'
-                :bottom-txt='syllables[currentCard].word'
-                :class='{"input-correct": answerCorrect}'
-                :src='syllables[currentCard].src'
-                has-bottom-txt
-                @clickImg='speak(syllables[currentCard].word)'
-                @voice='speak(syllables[currentCard].word)'
-            />
-
-            <v-btn :icon="'mdi-arrow-right-thick'" color='primary' @click='nextCard()'></v-btn>
-
-            <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
-            <h3>
-                {{ currentCard + 1 }} / {{ syllables.length }}
-            </h3>
+        <!--    MASCOT    -->
+        <div style='display: flex; align-items: center'>
+            <MascotFeedback :correct-boolean='answerCorrect' :show-boolean='answerCorrect !== null' />
         </div>
 
-        <div class='input_btn'>
-            <!--   NUMBER OF SYLLABLES INPUT     -->
-            <v-text-field
-                v-model='enteredSyllableNumber'
-                :class="{'input-correct:': answerCorrect}"
-                class='mt-8 input'
-                placeholder='Enter the number of syllables!'
-                type='number'
-            >
-            </v-text-field>
+        <!--   CONTENT     -->
+        <div class='container'>
 
-            <v-btn color='primary' @click='checkAnswer'>
-                check my answer
-            </v-btn>
+            <TitleWithSound title='How many syllables does the word have?' />
+
+            <div class='slider-container'>
+                <v-btn :icon="'mdi-arrow-left-thick'" color='primary' @click='previousCard()'></v-btn>
+
+                <ImageCard
+                    v-if='currentCard !== null'
+                    :bottom-txt='syllables[currentCard].word'
+                    :class='{"input-correct": answerCorrect}'
+                    :src='syllables[currentCard].src'
+                    has-bottom-txt
+                    @clickImg='speak(syllables[currentCard].word)'
+                    @voice='speak(syllables[currentCard].word)'
+                />
+
+                <v-btn :icon="'mdi-arrow-right-thick'" color='primary' @click='nextCard()'></v-btn>
+
+                <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
+                <h3>
+                    {{ currentCard + 1 }} / {{ syllables.length }}
+                </h3>
+            </div>
+
+            <div class='input_btn'>
+                <!--   NUMBER OF SYLLABLES INPUT     -->
+                <v-text-field
+                    v-model='enteredSyllableNumber'
+                    :class="{'input-correct:': answerCorrect}"
+                    class='mt-8 input'
+                    placeholder='Enter the number of syllables!'
+                    type='number'
+                >
+                </v-text-field>
+
+                <v-btn color='primary' @click='checkAnswer'>
+                    check my answer
+                </v-btn>
+            </div>
         </div>
+
     </div>
-
 </template>
 
 <!-- SCSS ---------------------------------------------------------// -->
 <style lang='scss' scoped>
+
+.allContainer {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
 .container {
     width: min(60rem, 100%);
     margin: auto;

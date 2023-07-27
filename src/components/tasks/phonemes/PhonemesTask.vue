@@ -11,6 +11,7 @@ import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
+import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 
 const words = reactive([
     { id: 0, word: 'beach', src: beach },
@@ -53,7 +54,7 @@ const getList = (list) => {
 };
 
 const currentCard = ref(0);
-const correct = ref(false);
+const correct = ref(null);
 const speechStore = useTextToSpeechStore();
 const soundStore = useSoundHelperStore();
 
@@ -93,7 +94,7 @@ const nextCard = () => {
     }
 
     getList(2).forEach(item => item.list = 1);
-    correct.value = false;
+    correct.value = null;
 };
 
 const previousCard = () => {
@@ -103,86 +104,99 @@ const previousCard = () => {
         currentCard.value = answers.length / 4 - 1;
     }
     getList(2).forEach(item => item.list = 1);
-    correct.value = false;
+    correct.value = null;
 };
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->
 <template>
-    <TitleWithSound title='Listen to the word and choose the right spelling' />
+    <div class='allContainer'>
 
-    <div class='container'>
-
-        <div class='slider-container'>
-
-            <v-btn :icon="'mdi-arrow-left-thick'" color='primary' @click='previousCard()'></v-btn>
-
-            <ImageCard
-                v-if='currentCard !== null'
-                :src='words[currentCard].src'
-                @clickImg='speechStore.playVoice(words[currentCard].word)'
-                @voice='speechStore.playVoice(words[currentCard].word)'
-            />
-
-            <v-btn :icon="'mdi-arrow-right-thick'" color='primary' @click='nextCard()'></v-btn>
-
+        <div style='display: flex; align-items: center'>
+            <MascotFeedback :correct-boolean='correct' :show-boolean='correct !== null' />
         </div>
 
+        <div class='container'>
 
-        <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
-        <h3 style='text-align: end'>
-            {{ currentCard + 1 }} / {{ words.length }}
-        </h3>
+            <TitleWithSound title='Listen to the word and choose the right spelling' />
 
-        <div class='bottom-container'>
+            <div class='slider-container'>
 
-            <!--    DROP ZONE    -->
+                <v-btn :icon="'mdi-arrow-left-thick'" color='primary' @click='previousCard()'></v-btn>
 
-            <div
-                :class="[{'drop-field-correct': correct, 'drop-field-incorrect': getList(2).length > 0 && !correct }]"
-                class='drop-field'
-                @drop='onDrop($event, 2)'
-                @dragenter.prevent
-                @dragover.prevent
-            >
-                <div
-                    v-for='answer in getList(2)'
-                    :key='answer.id'
-                    class='drag-el'
-                    draggable='true'
-                    @dragstart='dragStart($event, answer)'
-                >
-                    <h1>
-                        {{ answer.word }}
-                    </h1>
-                </div>
+                <ImageCard
+                    v-if='currentCard !== null'
+                    :src='words[currentCard].src'
+                    @clickImg='speechStore.playVoice(words[currentCard].word)'
+                    @voice='speechStore.playVoice(words[currentCard].word)'
+                />
 
-                <span v-if='getList(2).length < 1' style='color: #ccc'>Drop your word here</span>
+                <v-btn :icon="'mdi-arrow-right-thick'" color='primary' @click='nextCard()'></v-btn>
+
             </div>
 
-            <!-- WORDS -->
-            <div class='word-container' @drop='onDrop($event, 1)' @dragenter.prevent @dragover.prevent>
-                <template
-                    v-for='(answer, index) in getList(1)'
-                    :key='index'
+
+            <!--    CURRENT WORD NUMBER / TOTAL NUMBER OF WORDS      -->
+            <h3 style='text-align: end'>
+                {{ currentCard + 1 }} / {{ words.length }}
+            </h3>
+
+            <div class='bottom-container'>
+
+                <!--    DROP ZONE    -->
+
+                <div
+                    :class="[{'drop-field-correct': correct, 'drop-field-incorrect': getList(2).length > 0 && !correct }]"
+                    class='drop-field'
+                    @drop='onDrop($event, 2)'
+                    @dragenter.prevent
+                    @dragover.prevent
                 >
-                    <v-card
-                        v-if='answer.index === currentCard'
-                        class='card'
+                    <div
+                        v-for='answer in getList(2)'
+                        :key='answer.id'
+                        class='drag-el'
                         draggable='true'
                         @dragstart='dragStart($event, answer)'
                     >
-                        <v-card-title>{{ answer.word }}</v-card-title>
-                    </v-card>
-                </template>
-            </div>
-        </div>
+                        <h1>
+                            {{ answer.word }}
+                        </h1>
+                    </div>
 
+                    <span v-if='getList(2).length < 1' style='color: #ccc'>Drop your word here</span>
+                </div>
+
+                <!-- WORDS -->
+                <div class='word-container' @drop='onDrop($event, 1)' @dragenter.prevent @dragover.prevent>
+                    <template
+                        v-for='(answer, index) in getList(1)'
+                        :key='index'
+                    >
+                        <v-card
+                            v-if='answer.index === currentCard'
+                            class='card'
+                            draggable='true'
+                            @dragstart='dragStart($event, answer)'
+                        >
+                            <v-card-title>{{ answer.word }}</v-card-title>
+                        </v-card>
+                    </template>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
 <!-- SCSS ---------------------------------------------------------// -->
 <style lang='scss' scoped>
+
+.allContainer {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
 .container {
     width: min(60rem, 100%);
     margin: auto;

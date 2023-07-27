@@ -51,8 +51,11 @@ const correct = ref(false);
 const falseSentence = ref(false);
 const draggedLineIndex = ref(null);
 
-const dragStart = (event, index) => {
+const helperIndex = ref(null);
+
+const dragStart = (event, index, lineIndex?) => {
     event.dataTransfer.setData('text/plain', index.toString());
+    helperIndex.value = lineIndex;
 };
 
 const drop = (event, lineIndex) => {
@@ -81,6 +84,10 @@ const drop = (event, lineIndex) => {
     }
     activeLineIndex.value = null;
     result();
+};
+
+const dropWordBack = () => {
+    clearLine(helperIndex.value);
 };
 
 const clearLine = (lineIndex) => {
@@ -199,7 +206,7 @@ const nextWords = () => {
                     draggable='true'
                     style='cursor: grab'
                     @click='clearLine(lineIndex)'
-                    @dragstart='dragStart($event, line.wordIndex)'
+                    @dragstart='dragStart($event, line.wordIndex, lineIndex)'
                 >
                     {{ words[line.wordIndex].text }}
                 </h2>
@@ -214,7 +221,8 @@ const nextWords = () => {
         </div>
 
         <!-- WORDS -->
-        <div class='words'>
+        <div class='words' style='padding: 3rem;' @drop='dropWordBack()'
+             @dragover.prevent>
             <template v-for='(word, i) in words' :key='i'>
                 <v-card
                     v-if='word.id === currentIndex && !word.placed'

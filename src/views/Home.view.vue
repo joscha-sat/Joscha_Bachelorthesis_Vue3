@@ -17,7 +17,8 @@ const mascotStore = useMascotStore();
 const { isDog } = storeToRefs(mascotStore);
 
 const playSound = () => {
-    audioRef.value.play();
+    if (audioRef.value)
+        audioRef.value.play();
 };
 
 </script>

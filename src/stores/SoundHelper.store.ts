@@ -55,8 +55,8 @@ export const useSoundHelperStore = defineStore('soundHelper', {
         stopEnteredSound() {
             if (this.enterAudio) {
                 this.enterAudio.pause();
-                this.enterAudio = new Audio(); // Reset the audio object after pausing
-                this.audioIsPlaying = false; // Reset the audioIsPlaying flag
+                this.enterAudio = new Audio();
+                this.audioIsPlaying = false;
                 this.isPlayedOnce = false;
             }
         },

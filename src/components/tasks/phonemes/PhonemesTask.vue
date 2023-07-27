@@ -160,7 +160,7 @@ const previousCard = () => {
                 <span v-if='getList(2).length < 1' style='color: #ccc'>Drop your word here</span>
             </div>
 
-
+            <!-- WORDS -->
             <div class='word-container' @drop='onDrop($event, 1)' @dragenter.prevent @dragover.prevent>
                 <template
                     v-for='(answer, index) in getList(1)'
@@ -175,7 +175,6 @@ const previousCard = () => {
                         <v-card-title>{{ answer.word }}</v-card-title>
                     </v-card>
                 </template>
-
             </div>
         </div>
 

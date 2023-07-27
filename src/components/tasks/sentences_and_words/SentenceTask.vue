@@ -5,6 +5,9 @@ import { reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
+import { useMascotStore } from '@/stores/mascot.store';
+import { storeToRefs } from 'pinia';
+import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 
 const words: Sentence[] = reactive([
     { id: 0, text: 'your', placed: false },
@@ -50,7 +53,6 @@ const activeLineIndex = ref(null);
 const correct = ref(false);
 const falseSentence = ref(false);
 const draggedLineIndex = ref(null);
-
 const helperIndex = ref(null);
 
 const dragStart = (event, index, lineIndex?) => {
@@ -240,8 +242,10 @@ const nextWords = () => {
 
                 </v-card>
             </template>
-
         </div>
+
+        <MascotFeedback :correct-boolean='correct' :show-boolean='lines.every((line) => line.wordIndex !== null)' />
+
     </div>
 
 
@@ -255,7 +259,6 @@ const nextWords = () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
     margin-top: 5rem;
 }
 

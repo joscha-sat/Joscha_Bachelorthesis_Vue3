@@ -36,11 +36,15 @@ const audio = ref();
 const maxRepetitions = ref(3);
 let playCount = 0;
 
-const enteredSyllableNumber = ref();
+const enteredSyllableNumber = ref(null);
 const answerCorrect = ref(null);
 
 const checkAnswer = () => {
     answerCorrect.value = Number(enteredSyllableNumber.value) === syllables[currentCard.value].syllables;
+
+    if (enteredSyllableNumber.value !== null) {
+        amountOfTries.value += 1;
+    }
 
     if (answerCorrect.value) {
         soundStore.playSuccess(0.3);
@@ -57,7 +61,6 @@ const checkAnswer = () => {
 };
 
 const playAudio = () => {
-
     maxRepetitions.value = syllables[currentCard.value].syllables;
 
     audio.value = new Audio(clap);
@@ -95,6 +98,7 @@ const nextCard = () => {
         currentCard.value = 0;
     }
     enteredSyllableNumber.value = null;
+    amountOfTries.value = 0;
 };
 
 const previousCard = () => {
@@ -104,7 +108,10 @@ const previousCard = () => {
         currentCard.value = syllables.length - 1;
     }
     enteredSyllableNumber.value = null;
+    amountOfTries.value = 0;
 };
+
+const amountOfTries = ref(0);
 </script>
 
 
@@ -157,6 +164,27 @@ const previousCard = () => {
                 <v-btn color='primary' @click='checkAnswer'>
                     check my answer
                 </v-btn>
+
+                <div v-if='currentCard === 0 && amountOfTries >= 2' class='hint' style='margin-top: 1rem'>
+                    hint: Ba - na - na
+                </div>
+
+                <div v-if='currentCard === 1 && amountOfTries >= 2' class='hint' style='margin-top: 1rem'>
+                    hint: Hap - py
+                </div>
+
+                <div v-if='currentCard === 2 && amountOfTries >= 2' class='hint' style='margin-top: 1rem'>
+                    hint: Dog
+                </div>
+
+                <div v-if='currentCard === 3 && amountOfTries >= 2' class='hint' style='margin-top: 1rem'>
+                    hint: Sun - shine
+                </div>
+
+                <div v-if='currentCard === 4 && amountOfTries >= 2' class='hint' style='margin-top: 1rem'>
+                    hint: Ca - ter - pil - lar
+                </div>
+
             </div>
         </div>
 
@@ -191,5 +219,9 @@ const previousCard = () => {
     .input-correct {
         background-color: #78af78;
     }
+}
+
+.hint {
+    font-size: 1.5rem;
 }
 </style>

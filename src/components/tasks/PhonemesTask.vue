@@ -57,6 +57,7 @@ const currentCard = ref(0);
 const correct = ref(null);
 const speechStore = useTextToSpeechStore();
 const soundStore = useSoundHelperStore();
+const amountOfTries = ref(0);
 
 const dragStart = (event, answer) => {
     event.dataTransfer.setData('answerID', answer.id);
@@ -66,6 +67,8 @@ const onDrop = (event, list) => {
 
     const answerID = event.dataTransfer.getData('answerID');
     const answer = answers.find((answer) => answer.id == answerID);
+
+    amountOfTries.value += 1;
 
     if (list === 2 && getList(2).length > 0) {
         getList(2).forEach((item) => item.list = 1);
@@ -95,6 +98,7 @@ const nextCard = () => {
 
     getList(2).forEach(item => item.list = 1);
     correct.value = null;
+    amountOfTries.value = 0;
 };
 
 const previousCard = () => {
@@ -105,6 +109,7 @@ const previousCard = () => {
     }
     getList(2).forEach(item => item.list = 1);
     correct.value = null;
+    amountOfTries.value = 0;
 };
 
 const formatWord = (word: any) => {
@@ -145,9 +150,7 @@ const formatWord = (word: any) => {
 
 
     }
-
     return null;
-
 };
 </script>
 
@@ -227,6 +230,26 @@ const formatWord = (word: any) => {
                         </v-card>
                     </template>
                 </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 0' class='hint' style='margin-top: 1rem'>
+                    hint: ea
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 1' class='hint' style='margin-top: 1rem'>
+                    hint: ou
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 2' class='hint' style='margin-top: 1rem'>
+                    hint: ju..gle
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 3' class='hint' style='margin-top: 1rem'>
+                    hint: oa
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 4' class='hint' style='margin-top: 1rem'>
+                    hint: phi
+                </div>
             </div>
 
         </div>
@@ -235,6 +258,10 @@ const formatWord = (word: any) => {
 
 <!-- SCSS ---------------------------------------------------------// -->
 <style lang='scss' scoped>
+
+.hint {
+    font-size: 1.5rem;
+}
 
 .allContainer {
     display: grid;

@@ -12,6 +12,7 @@ import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
+import { fi } from 'vuetify/locale';
 
 const words = reactive([
     { id: 0, word: 'beach', src: beach },
@@ -38,13 +39,13 @@ const answers = reactive([
     { index: 2, id: 10, word: 'jungel', list: 1, correct: false },
     { index: 2, id: 11, word: 'djungle', list: 1, correct: false },
 
-    { index: 3, id: 12, word: 'cloke', list: 1, correct: false },
+    { index: 3, id: 12, word: 'clouk', list: 1, correct: false },
     { index: 3, id: 13, word: 'cloak', list: 1, correct: true },
     { index: 3, id: 14, word: 'kloak', list: 1, correct: false },
     { index: 3, id: 15, word: 'clauk', list: 1, correct: false },
 
     { index: 4, id: 16, word: 'dolfyn', list: 1, correct: false },
-    { index: 4, id: 17, word: 'doulphin', list: 1, correct: false },
+    { index: 4, id: 17, word: 'dolphyn', list: 1, correct: false },
     { index: 4, id: 18, word: 'dolphin', list: 1, correct: true },
     { index: 4, id: 19, word: 'dolfin', list: 1, correct: false },
 ]);
@@ -105,6 +106,49 @@ const previousCard = () => {
     }
     getList(2).forEach(item => item.list = 1);
     correct.value = null;
+};
+
+const formatWord = (word: any) => {
+
+    if (word.index === 0) {
+        const secondLetter = word.word.substring(1, 2);
+        const thirdLetter = word.word.substring(2, 3);
+
+        return `${ word.word.charAt(0) }<b>${ secondLetter }</b><b>${ thirdLetter }</b>${ word.word.slice(3) }`;
+    }
+
+    if (word.index === 1 || word.index === 3) {
+        const thirdLetter = word.word.substring(2, 3);
+        const fourthLetter = word.word.substring(3, 4);
+        return `${ word.word.charAt(0) + word.word.charAt(1) }<b>${ thirdLetter }</b><b>${ fourthLetter }</b>${ word.word.slice(4) }`;
+    }
+
+    if (word.index === 2) {
+        const firstLetter = word.word.substring(0, 1);
+        const secondLetter = word.word.substring(1, 2);
+
+        return `<b>${ firstLetter }</b><b>${ secondLetter }</b>${ word.word.slice(2) }`;
+    }
+
+    if (word.index === 4) {
+
+        if (word.id === 17 || word.id === 18) {
+            const fourthLetter = word.word.substring(3, 4);
+            const fifthLetter = word.word.substring(4, 5);
+            const sixthLetter = word.word.substring(5, 6);
+
+            return `${ word.word.charAt(0) + word.word.charAt(1) + word.word.charAt(2) }<b>${ fourthLetter }</b><b>${ fifthLetter }</b><b>${ sixthLetter }</b>${ word.word.slice(6) }`;
+        } else {
+            const fourthLetter = word.word.substring(3, 4);
+            const fifthLetter = word.word.substring(4, 5);
+            return `${ word.word.charAt(0) + word.word.charAt(1) + word.word.charAt(2) }<b>${ fourthLetter }</b><b>${ fifthLetter }</b>${ word.word.slice(5) }`;
+        }
+
+
+    }
+
+    return null;
+
 };
 </script>
 
@@ -175,11 +219,12 @@ const previousCard = () => {
                     >
                         <v-card
                             v-if='answer.index === currentCard'
-                            class='card'
+                            class='sub-card'
                             draggable='true'
                             @dragstart='dragStart($event, answer)'
                         >
-                            <v-card-title>{{ answer.word }}</v-card-title>
+                            <span style='font-size: 1.75rem; word-break: keep-all'
+                                  v-html='formatWord(answer)'></span>
                         </v-card>
                     </template>
                 </div>
@@ -209,9 +254,9 @@ const previousCard = () => {
         margin-top: 2rem;
     }
 
-    .card {
-        padding-inline: 0.75rem;
-        padding-block: 0.25rem;
+    .sub-card {
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
 
         &:hover {
             cursor: grab;
@@ -227,7 +272,6 @@ const previousCard = () => {
         gap: 1rem;
 
         padding-inline: 5rem;
-
         margin-top: 2rem;
     }
 

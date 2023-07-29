@@ -43,36 +43,38 @@ interface Letter {
 }
 
 const images = ref([
-    { id: 0, src: bear, text: 'bear', correctLetter: true },
-    { id: 0, src: panda, text: 'panda', correctLetter: false },
-    { id: 0, src: butterfly, text: 'butterfly', correctLetter: true },
-    { id: 0, src: balloon, text: 'balloon', correctLetter: true },
-    { id: 0, src: pizza, text: 'pizza', correctLetter: false },
+    { id: 0, src: bear, text: 'bear', correctLetter: true, showText: false },
+    { id: 0, src: panda, text: 'panda', correctLetter: false, showText: false },
+    { id: 0, src: butterfly, text: 'butterfly', correctLetter: true, showText: false },
+    { id: 0, src: balloon, text: 'balloon', correctLetter: true, showText: false },
+    { id: 0, src: pizza, text: 'pizza', correctLetter: false, showText: false },
 
-    { id: 1, src: popcorn, text: 'popcorn', correctLetter: true },
-    { id: 1, src: boat, text: 'boat', correctLetter: false },
-    { id: 1, src: bicycle, text: 'bicycle', correctLetter: false },
-    { id: 1, src: pumpkin, text: 'pumpkin', correctLetter: true },
-    { id: 1, src: puzzle, text: 'puzzle', correctLetter: true },
+    { id: 1, src: popcorn, text: 'popcorn', correctLetter: true, showText: false },
+    { id: 1, src: boat, text: 'boat', correctLetter: false, showText: false },
+    { id: 1, src: bicycle, text: 'bicycle', correctLetter: false, showText: false },
+    { id: 1, src: pumpkin, text: 'pumpkin', correctLetter: true, showText: false },
+    { id: 1, src: puzzle, text: 'puzzle', correctLetter: true, showText: false },
 
-    { id: 2, src: pirate, text: 'pirate', correctLetter: false },
-    { id: 2, src: queen, text: 'queen', correctLetter: true },
-    { id: 2, src: paint, text: 'paint', correctLetter: false },
-    { id: 2, src: quiz, text: 'quiz', correctLetter: true },
-    { id: 2, src: quicksand, text: 'quicksand', correctLetter: true },
+    { id: 2, src: pirate, text: 'pirate', correctLetter: false, showText: false },
+    { id: 2, src: queen, text: 'queen', correctLetter: true, showText: false },
+    { id: 2, src: paint, text: 'paint', correctLetter: false, showText: false },
+    { id: 2, src: quiz, text: 'quiz', correctLetter: true, showText: false },
+    { id: 2, src: quicksand, text: 'quicksand', correctLetter: true, showText: false },
 
-    { id: 3, src: cinema, text: 'cinema', correctLetter: false },
-    { id: 3, src: clown, text: 'clown', correctLetter: false },
-    { id: 3, src: key, text: 'key', correctLetter: true },
-    { id: 3, src: circle, text: 'circle', correctLetter: false },
-    { id: 3, src: koala, text: 'koala', correctLetter: true },
+    { id: 3, src: cinema, text: 'cinema', correctLetter: false, showText: false },
+    { id: 3, src: clown, text: 'clown', correctLetter: false, showText: false },
+    { id: 3, src: key, text: 'key', correctLetter: true, showText: false },
+    { id: 3, src: circle, text: 'circle', correctLetter: false, showText: false },
+    { id: 3, src: koala, text: 'koala', correctLetter: true, showText: false },
 
-    { id: 4, src: guitar, text: 'guitar', correctLetter: true },
-    { id: 4, src: kangaroo, text: 'kangaroo', correctLetter: false },
-    { id: 4, src: glue, text: 'glue', correctLetter: true },
-    { id: 4, src: gold, text: 'gold', correctLetter: true },
-    { id: 4, src: gameboy, text: 'gameboy', correctLetter: true },
+    { id: 4, src: guitar, text: 'guitar', correctLetter: true, showText: false },
+    { id: 4, src: kangaroo, text: 'kangaroo', correctLetter: false, showText: false },
+    { id: 4, src: glue, text: 'glue', correctLetter: true, showText: false },
+    { id: 4, src: gold, text: 'gold', correctLetter: true, showText: false },
+    { id: 4, src: gameboy, text: 'gameboy', correctLetter: true, showText: false },
 ]);
+
+const correctAmount = ref(0);
 
 const letters: Letter[] = reactive([
     { id: 0, letter: 'B / b' },
@@ -85,11 +87,14 @@ const letters: Letter[] = reactive([
 const currentCardIndex = ref(0);
 
 const nextCard = () => {
+
     if (currentCardIndex.value < letters.length - 1) {
         currentCardIndex.value++;
     } else {
         currentCardIndex.value = 0;
     }
+    correctAmount.value = 0;
+    images.value.forEach((image) => image.showText = false);
 };
 
 const speechStore = useTextToSpeechStore();
@@ -108,19 +113,17 @@ const dragStart = (image) => {
 const allFound = ref(false);
 
 const drop = () => {
+    if (!draggedImage.value.showText && draggedImage.value.correctLetter) {
+        correctAmount.value += 1;
+    }
+
+    draggedImage.value.showText = true;
+
     if (draggedImage.value.correctLetter) {
-        // if the words starts with the letter, remove it from the array
-        const index = images.value.findIndex((image) => image.id === draggedImage.value.id);
-        if (index !== -1) {
-            images.value = images.value.filter((item) => item.text !== draggedImage.value.text);
-        }
         const audio = new Audio(correct);
         audio.play();
-        // get a new array where
-        const checkAllWordsFound = images.value.filter((item) => item.id === currentCardIndex.value);
 
-        // success case > found all words
-        if (((currentCardIndex.value === 0 || currentCardIndex.value === 1 || currentCardIndex.value === 2) && checkAllWordsFound.length === 2) || currentCardIndex.value === 3 && checkAllWordsFound.length === 3) {
+        if (currentCardIndex.value <= 2 && correctAmount.value === 3 || currentCardIndex.value === 3 && correctAmount.value === 2 || currentCardIndex.value === 4 && correctAmount.value === 4) {
             soundStore.playSuccess(0.3);
             speechStore.playVoice(`You found all words with the letter ${ letters[currentCardIndex.value].letter.charAt(0) }, bravo!`);
             allFound.value = true;
@@ -128,18 +131,6 @@ const drop = () => {
             setTimeout(() => {
                 nextCard();
                 allFound.value = false;
-            }, 2500);
-        }
-
-        // success case > found all words and it's the last letter
-        if (currentCardIndex.value === 4 && checkAllWordsFound.length === 1) {
-            soundStore.playSuccess(0.3);
-            speechStore.playVoice(`You found all words with the letter ${ letters[currentCardIndex.value].letter.charAt(0) }, bravo!`);
-
-            setTimeout(() => {
-                router.push({
-                    path: '/home',
-                });
             }, 2500);
         }
 
@@ -175,6 +166,9 @@ const drop = () => {
             <template v-for='(image, index) in images' :key='index'>
                 <ImageCard
                     v-if='image.id === currentCardIndex'
+                    :bottom-txt='image.text'
+                    :class='{"allFound": image.showText && image.correctLetter, "incorrect": image.showText && !image.correctLetter}'
+                    :has-bottom-txt='image.showText'
                     :src='image.src'
                     draggable='true'
                     @clickImg='speak(image.text)'
@@ -237,5 +231,9 @@ const drop = () => {
 
 .allFound {
     background-color: #78af78;
+}
+
+.incorrect {
+    background-color: lightcoral;
 }
 </style>

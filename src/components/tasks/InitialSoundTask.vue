@@ -1,7 +1,7 @@
 <!-- TS ------------------------------------------------------------//-->
 <script lang='ts' setup>
-import correct from '../../../assets/sounds/tasks/correct.mp3';
-import fail from '../../../assets/sounds/tasks/fail.mp3';
+import correct from '../../assets/sounds/tasks/correct.mp3';
+import fail from '../../assets/sounds/tasks/fail.mp3';
 
 
 import bear from '@/assets/images/tasks/initialSound/bear.png';

@@ -1,14 +1,14 @@
 <!-- TS ------------------------------------------------------------//-->
 <script lang='ts' setup>
 import { useSpeechSynthesis } from '@vueuse/core';
-import clap from '../../../assets/sounds/tasks/clap.mp3';
+import clap from '../../assets/sounds/tasks/clap.mp3';
 import Syllable from '@/classes/Syllable.class';
 
-import banana from '../../../assets/images/tasks/syllables/banana.png';
-import caterpillar from '../../../assets/images/tasks/syllables/caterpillar.png';
-import dog from '../../../assets/images/tasks/syllables/dog.png';
-import happy from '../../../assets/images/tasks/syllables/happy.png';
-import sun from '../../../assets/images/tasks/syllables/sun.png';
+import banana from '../../assets/images/tasks/syllables/banana.png';
+import caterpillar from '../../assets/images/tasks/syllables/caterpillar.png';
+import dog from '../../assets/images/tasks/syllables/dog.png';
+import happy from '../../assets/images/tasks/syllables/happy.png';
+import sun from '../../assets/images/tasks/syllables/sun.png';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 
 import { reactive, ref } from 'vue';

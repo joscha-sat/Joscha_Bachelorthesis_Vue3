@@ -1,11 +1,11 @@
 <!-- TS ------------------------------------------------------------//-->
 <script lang='ts' setup>
 
-import beach from '../../../assets/images/tasks/phonemes/beach.jpg';
-import cloud from '../../../assets/images/tasks/phonemes/cloud.png';
-import jungle from '../../../assets/images/tasks/phonemes/jungle.jpg';
-import cloak from '../../../assets/images/tasks/phonemes/cloak.png';
-import dolphin from '../../../assets/images/tasks/phonemes/dolphin.png';
+import beach from '../../assets/images/tasks/phonemes/beach.jpg';
+import cloud from '../../assets/images/tasks/phonemes/cloud.png';
+import jungle from '../../assets/images/tasks/phonemes/jungle.jpg';
+import cloak from '../../assets/images/tasks/phonemes/cloak.png';
+import dolphin from '../../assets/images/tasks/phonemes/dolphin.png';
 import { reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';

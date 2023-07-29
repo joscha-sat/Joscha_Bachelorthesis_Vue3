@@ -1,33 +1,33 @@
 <!-- TS ------------------------------------------------------------//-->
 <script lang='ts' setup>
-import rainSound from '../../../assets/sounds/tasks/listening/rain.mp3';
-import carSound from '../../../assets/sounds/tasks/listening/car.mp3';
-import hammerSound from '../../../assets/sounds/tasks/listening/hammer.mp3';
-import elephantSound from '../../../assets/sounds/tasks/listening/elephant.mp3';
-import pingpongSound from '../../../assets/sounds/tasks/listening/pingpong.mp3';
+import rainSound from '../../assets/sounds/tasks/listening/rain.mp3';
+import carSound from '../../assets/sounds/tasks/listening/car.mp3';
+import hammerSound from '../../assets/sounds/tasks/listening/hammer.mp3';
+import elephantSound from '../../assets/sounds/tasks/listening/elephant.mp3';
+import pingpongSound from '../../assets/sounds/tasks/listening/pingpong.mp3';
 
-import rainImage from '../../../assets/images/tasks/listening/rain.jpg';
-import windImage from '../../../assets/images/tasks/listening/wind.jpg';
-import fireImage from '../../../assets/images/tasks/listening/fire.png';
+import rainImage from '../../assets/images/tasks/listening/rain.jpg';
+import windImage from '../../assets/images/tasks/listening/wind.jpg';
+import fireImage from '../../assets/images/tasks/listening/fire.png';
 
-import carImg from '../../../assets/images/tasks/listening/car.png';
-import airplaneImg from '../../../assets/images/tasks/listening/airplane.png';
-import shipImg from '../../../assets/images/tasks/listening/ship.png';
+import carImg from '../../assets/images/tasks/listening/car.png';
+import airplaneImg from '../../assets/images/tasks/listening/airplane.png';
+import shipImg from '../../assets/images/tasks/listening/ship.png';
 
-import hammerImg from '../../../assets/images/tasks/listening/hammer.png';
-import scissorImg from '../../../assets/images/tasks/listening/scissors.png';
-import sawImg from '../../../assets/images/tasks/listening/saw.png';
+import hammerImg from '../../assets/images/tasks/listening/hammer.png';
+import scissorImg from '../../assets/images/tasks/listening/scissors.png';
+import sawImg from '../../assets/images/tasks/listening/saw.png';
 
-import lionImg from '../../../assets/images/tasks/listening/lion.png';
-import horseImg from '../../../assets/images/tasks/listening/horse.png';
-import elephantImg from '../../../assets/images/tasks/listening/elephant.png';
+import lionImg from '../../assets/images/tasks/listening/lion.png';
+import horseImg from '../../assets/images/tasks/listening/horse.png';
+import elephantImg from '../../assets/images/tasks/listening/elephant.png';
 
-import tabletennisImg from '../../../assets/images/tasks/listening/table-tennis.png';
-import tennisImg from '../../../assets/images/tasks/listening/tennis.png';
-import badmintonImg from '../../../assets/images/tasks/listening/badminton.png';
+import tabletennisImg from '../../assets/images/tasks/listening/table-tennis.png';
+import tennisImg from '../../assets/images/tasks/listening/tennis.png';
+import badmintonImg from '../../assets/images/tasks/listening/badminton.png';
 
-import success from '../../../assets/sounds/tasks/success.mp3';
-import fail from '../../../assets/sounds/tasks/fail.mp3';
+import success from '../../assets/sounds/tasks/success.mp3';
+import fail from '../../assets/sounds/tasks/fail.mp3';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import router from '@/router';
 import ListeningAnswer from '@/classes/ListeningAnswer.class';

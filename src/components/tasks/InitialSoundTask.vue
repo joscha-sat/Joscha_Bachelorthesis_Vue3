@@ -33,7 +33,6 @@ import { reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
-import router from '@/router';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 
 

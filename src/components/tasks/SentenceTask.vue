@@ -253,6 +253,27 @@ const amountOfTries = ref(0);
             </template>
         </div>
 
+        <!--   hints if the user has some fail tries     -->
+        <span v-if='amountOfTries >= 6 && currentIndex === 0' class='hint'>
+           hint: Play ____ ____ friends.
+        </span>
+
+        <span v-if='amountOfTries >= 6 && currentIndex === 1' class='hint'>
+           hint: Dogs love ____ ____.
+        </span>
+
+        <span v-if='amountOfTries >= 6 && currentIndex === 2' class='hint'>
+           hint: I ____ ice ____.
+        </span>
+
+        <span v-if='amountOfTries >= 6 && currentIndex === 3' class='hint'>
+           hint:  Birds ____ ____ melodies.
+        </span>
+
+        <span v-if='amountOfTries >= 6 && currentIndex === 4' class='hint'>
+           hint: ____ ____ your dreams.
+        </span>
+
         <MascotFeedback :correct-boolean='correct' :show-boolean='lines.every((line) => line.wordIndex !== null)' />
 
     </div>
@@ -318,5 +339,9 @@ const amountOfTries = ref(0);
 
 .line-incorrect {
     background-color: lightcoral;
+}
+
+.hint {
+    font-size: 1.5rem;
 }
 </style>

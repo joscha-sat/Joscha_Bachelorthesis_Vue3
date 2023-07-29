@@ -85,6 +85,7 @@ const drop = (event, lineIndex) => {
     }
     activeLineIndex.value = null;
     result();
+    amountOfTries.value += 1;
 };
 
 const dropWordBack = () => {
@@ -188,9 +189,10 @@ const nextWords = () => {
         });
         currentIndex.value = 0;
     }
+    amountOfTries.value = 0;
 };
 
-
+const amountOfTries = ref(0);
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->

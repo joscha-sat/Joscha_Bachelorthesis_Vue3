@@ -12,7 +12,6 @@ import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
-import { fi } from 'vuetify/locale';
 
 const words = reactive([
     { id: 0, word: 'beach', src: beach },

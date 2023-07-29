@@ -35,14 +35,20 @@ const wordsToBeRhymedTo: Ref<WordsToRhyme[]> = ref([
 ]);
 
 const rhymesArray = ref();
-const enteredWord = ref();
+const enteredWord = ref(null);
 const currentCard = ref(0);
 const doesItRhyme = ref(null);
 const soundStore = useSoundHelperStore();
+const amountOfTries = ref(0);
 
 const check = async (currentCard: number) => {
     const rhymes = await WordsService.geRhymes(wordsToBeRhymedTo.value[currentCard].title);
     rhymesArray.value = rhymes.data.map((items: RhymeResponse) => items.word.toLowerCase());
+
+    if (enteredWord.value !== null) {
+        amountOfTries.value += 1;
+    }
+
 
     if (enteredWord.value) {
         doesItRhyme.value = rhymesArray.value.includes(enteredWord.value.toLowerCase());
@@ -75,6 +81,7 @@ const nextCard = () => {
         doesItRhyme.value = null;
     }
     enteredWord.value = null;
+    amountOfTries.value = 0;
 };
 
 const previousCard = () => {
@@ -86,6 +93,7 @@ const previousCard = () => {
         doesItRhyme.value = null;
     }
     enteredWord.value = null;
+    amountOfTries.value = 0;
 };
 const txtToSpeech = useTextToSpeechStore();
 </script>
@@ -143,6 +151,27 @@ const txtToSpeech = useTextToSpeechStore();
 
                 <!--    CHECK RESULT BUTTON    -->
                 <v-btn class='btn' color='primary' @click='check(currentCard)'>Check if my word rhymes</v-btn>
+
+                <!--        hint after too many incorrect inputs -->
+                <div v-if='amountOfTries >= 2 && currentCard === 0' class='hint' style='margin-top: 1rem'>
+                    hint: h - ouse, bl - ouse
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 1' class='hint' style='margin-top: 1rem'>
+                    hint: m - all, c - all
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 2' class='hint' style='margin-top: 1rem'>
+                    hint: fr - ee, kn - ee
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 3' class='hint' style='margin-top: 1rem'>
+                    hint: f - un, b - un
+                </div>
+
+                <div v-if='amountOfTries >= 2 && currentCard === 4' class='hint' style='margin-top: 1rem'>
+                    hint: d - ish, w - ish
+                </div>
             </div>
         </div>
 
@@ -157,6 +186,10 @@ const txtToSpeech = useTextToSpeechStore();
 .allContainer {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
+}
+
+.hint {
+    font-size: 1.5rem;
 }
 
 .container {

@@ -44,29 +44,32 @@ const sounds = ref([rainSound, carSound, hammerSound, elephantSound, pingpongSou
 const currentIndex = ref(0);
 
 const answers: Ref<ListeningAnswer[]> = ref([
-    { id: 0, src: rainImage, title: 'rain', correct: true },
-    { id: 0, src: windImage, title: 'wind', correct: false },
-    { id: 0, src: fireImage, title: 'fire', correct: false },
+    { id: 0, src: rainImage, title: 'rain', correct: true, clicked: false },
+    { id: 0, src: windImage, title: 'wind', correct: false, clicked: false },
+    { id: 0, src: fireImage, title: 'fire', correct: false, clicked: false },
 
-    { id: 1, src: airplaneImg, title: 'airplane', correct: false },
-    { id: 1, src: shipImg, title: 'ship', correct: false },
-    { id: 1, src: carImg, title: 'car', correct: true },
+    { id: 1, src: airplaneImg, title: 'airplane', correct: false, clicked: false },
+    { id: 1, src: shipImg, title: 'ship', correct: false, clicked: false },
+    { id: 1, src: carImg, title: 'car', correct: true, clicked: false },
 
-    { id: 2, src: hammerImg, title: 'hammer', correct: true },
-    { id: 2, src: sawImg, title: 'saw', correct: false },
-    { id: 2, src: scissorImg, title: 'scissor', correct: false },
+    { id: 2, src: hammerImg, title: 'hammer', correct: true, clicked: false },
+    { id: 2, src: sawImg, title: 'saw', correct: false, clicked: false },
+    { id: 2, src: scissorImg, title: 'scissor', correct: false, clicked: false },
 
-    { id: 3, src: lionImg, title: 'lion', correct: false },
-    { id: 3, src: elephantImg, title: 'elephant', correct: true },
-    { id: 3, src: horseImg, title: 'horse', correct: false },
+    { id: 3, src: lionImg, title: 'lion', correct: false, clicked: false },
+    { id: 3, src: elephantImg, title: 'elephant', correct: true, clicked: false },
+    { id: 3, src: horseImg, title: 'horse', correct: false, clicked: false },
 
-    { id: 4, src: tennisImg, title: 'tennis', correct: false },
-    { id: 4, src: badmintonImg, title: 'badminton', correct: false },
-    { id: 4, src: tabletennisImg, title: 'table-tennis', correct: true },
+    { id: 4, src: tennisImg, title: 'tennis', correct: false, clicked: false },
+    { id: 4, src: badmintonImg, title: 'badminton', correct: false, clicked: false },
+    { id: 4, src: tabletennisImg, title: 'table-tennis', correct: true, clicked: false },
 ]);
+
 
 const clickImage = (clickedItem) => {
     const audio = ref();
+    clickedItem.clicked = true;
+
     if (clickedItem.correct) {
         audio.value = new Audio(success);
         audio.value.play();
@@ -140,6 +143,7 @@ onMounted(() => {
                 <ImageCard
                     v-if='item.id === currentIndex'
                     :bottom-txt='item.title'
+                    :class='{"incorrect": item.clicked && !item.correct}'
                     :src='item.src'
                     has-bottom-txt
                     @clickImg='clickImage(item)'
@@ -169,5 +173,9 @@ onMounted(() => {
 h1 {
     text-align: center;
     margin-block: 2rem;
+}
+
+.incorrect {
+    background-color: lightcoral;
 }
 </style>

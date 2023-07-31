@@ -21,23 +21,26 @@ export const useTextToSpeechStore = defineStore('textToSpeech', {
     actions: {
         // load voices onMounted in component
         async onMounted() {
-            await this.loadVoices();
+            setTimeout(() => {
+                await this.loadVoices();
 
-            // only display german and english
-            this.filteredVoices = this.voices.filter((voice) => voice.lang === 'en-GB');
+                // only display german and english
+                this.filteredVoices = this.voices.filter((voice) => voice.lang === 'en-GB');
 
-            const microsoftEdge = this.voices.find(
-                (voice) =>
+                const microsoftEdge = this.voices.find(
+                  (voice) =>
                     voice.name === 'Microsoft Ryan Online (Natural) - English (United Kingdom)'
-            );
-            const chrome = this.voices.find((voice) => voice.name === 'Google UK English Male');
+                );
+                const chrome = this.voices.find((voice) => voice.name === 'Google UK English Male');
 
-            const firefox = this.voices.find(
-                (voice) => voice.name === 'Microsoft Zira Desktop - English (United States)'
-            );
+                const firefox = this.voices.find(
+                  (voice) => voice.name === 'Microsoft Zira Desktop - English (United States)'
+                );
 
-            // not all browser have the same amount of voices, set a decent one for each
-            this.voice = chrome || microsoftEdge || firefox;
+                // not all browser have the same amount of voices, set a decent one for each
+                this.voice = chrome || microsoftEdge || firefox;
+            }, 100)
+
         },
 
         loadVoices() {

@@ -21,7 +21,7 @@ export const useTextToSpeechStore = defineStore('textToSpeech', {
     actions: {
         // load voices onMounted in component
         async onMounted() {
-            setTimeout(() => {
+            setTimeout(async () => {
                 await this.loadVoices();
 
                 // only display german and english

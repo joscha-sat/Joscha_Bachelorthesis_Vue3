@@ -9,8 +9,7 @@ import SaveCancelButtons from '@/components/shared/Save-Cancel-Buttons.vue';
 
 <!-- HTML ----------------------------------------------------------//-->
 <template>
-    <v-container>
-
+    <v-container class='container'>
         <v-card class='card' color='bg'>
             <!-- TITLE -->
             <v-card-title>
@@ -47,6 +46,12 @@ import SaveCancelButtons from '@/components/shared/Save-Cancel-Buttons.vue';
 
 <!-- SCSS ---------------------------------------------------------// -->
 <style lang='scss' scoped>
+.container {
+    height: 75dvh;
+    display: flex;
+    align-items: center;
+}
+
 .card {
     margin: auto;
     width: min(35rem, 100%);

@@ -6,7 +6,7 @@ import cloud from '../../assets/images/tasks/phonemes/cloud.png';
 import jungle from '../../assets/images/tasks/phonemes/jungle.jpg';
 import cloak from '../../assets/images/tasks/phonemes/cloak.png';
 import dolphin from '../../assets/images/tasks/phonemes/dolphin.png';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
@@ -99,6 +99,7 @@ const nextCard = () => {
     getList(2).forEach(item => item.list = 1);
     correct.value = null;
     amountOfTries.value = 0;
+    localStorage.setItem('phonemesIndex', currentCard.value.toString());
 };
 
 const previousCard = () => {
@@ -110,6 +111,7 @@ const previousCard = () => {
     getList(2).forEach(item => item.list = 1);
     correct.value = null;
     amountOfTries.value = 0;
+    localStorage.setItem('phonemesIndex', currentCard.value.toString());
 };
 
 const formatWord = (word: any) => {
@@ -152,6 +154,12 @@ const formatWord = (word: any) => {
     }
     return null;
 };
+
+onMounted(() => {
+    const storageIndex = ref(localStorage.getItem('phonemesIndex'));
+    if (storageIndex.value)
+        currentCard.value = Number(storageIndex.value);
+});
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->

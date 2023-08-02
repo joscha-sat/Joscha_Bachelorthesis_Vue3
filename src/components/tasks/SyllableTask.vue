@@ -11,7 +11,7 @@ import happy from '../../assets/images/tasks/syllables/happy.png';
 import sun from '../../assets/images/tasks/syllables/sun.png';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
@@ -99,6 +99,7 @@ const nextCard = () => {
     }
     enteredSyllableNumber.value = null;
     amountOfTries.value = 0;
+    localStorage.setItem('syllablesIndex', currentCard.value.toString());
 };
 
 const previousCard = () => {
@@ -109,9 +110,17 @@ const previousCard = () => {
     }
     enteredSyllableNumber.value = null;
     amountOfTries.value = 0;
+    localStorage.setItem('syllablesIndex', currentCard.value.toString());
 };
 
 const amountOfTries = ref(0);
+
+onMounted(() => {
+    const storageIndex = ref(localStorage.getItem('syllablesIndex'));
+    if (storageIndex.value)
+        currentCard.value = Number(storageIndex.value);
+});
+
 </script>
 
 

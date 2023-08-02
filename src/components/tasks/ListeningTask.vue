@@ -105,6 +105,8 @@ const nextSound = () => {
         currentIndex.value = 0;
         isPlayedOnce.value = false;
     }
+
+    localStorage.setItem('listeningIndex', currentIndex.value.toString());
 };
 
 const soundStore = useSoundHelperStore();
@@ -112,6 +114,11 @@ const { isPlayedOnce } = storeToRefs(soundStore);
 
 onMounted(() => {
     isPlayedOnce.value = false;
+    const storageIndex = ref(localStorage.getItem('listeningIndex'));
+    if (storageIndex.value)
+        currentIndex.value = Number(storageIndex.value);
+
+
 });
 
 </script>

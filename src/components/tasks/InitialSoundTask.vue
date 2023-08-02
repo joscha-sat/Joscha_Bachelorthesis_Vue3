@@ -29,7 +29,7 @@ import glue from '@/assets/images/tasks/initialSound/glue.png';
 import guitar from '@/assets/images/tasks/initialSound/guitar.png';
 import gold from '@/assets/images/tasks/initialSound/gold.png';
 import kangaroo from '@/assets/images/tasks/initialSound/kangaroo.png';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
@@ -94,6 +94,7 @@ const nextCard = () => {
     }
     correctAmount.value = 0;
     images.value.forEach((image) => image.showText = false);
+    localStorage.setItem('initialSoundIndex', currentCardIndex.value.toString());
 };
 
 const speechStore = useTextToSpeechStore();
@@ -138,6 +139,12 @@ const drop = () => {
         audio.play();
     }
 };
+
+onMounted(() => {
+    const storageIndex = ref(localStorage.getItem('initialSoundIndex'));
+    if (storageIndex.value)
+        currentCardIndex.value = Number(storageIndex.value);
+});
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->

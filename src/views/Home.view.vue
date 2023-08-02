@@ -26,7 +26,7 @@ const playSound = () => {
 <!-- HTML ----------------------------------------------------------//-->
 <template>
 
-    <TitleWithSound title='Hello and welcome to listen, play, learn! Choose a task' />
+    <TitleWithSound style='padding: 1.5rem' title='Hello and welcome to listen, play, learn! Choose a task' />
 
     <div class='container'>
         <div class='left'></div>

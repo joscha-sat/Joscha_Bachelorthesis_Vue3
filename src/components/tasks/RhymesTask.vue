@@ -7,7 +7,7 @@ import treeSrc from '@/assets/images/tasks/rhymes/tree.png';
 import sunSrc from '@/assets/images/tasks/rhymes/sun.png';
 import fishSrc from '@/assets/images/tasks/rhymes/fish.png';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
-import { ref, Ref } from 'vue';
+import { onMounted, ref, Ref } from 'vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
@@ -82,6 +82,7 @@ const nextCard = () => {
     }
     enteredWord.value = null;
     amountOfTries.value = 0;
+    localStorage.setItem('rhymesIndex', currentCard.value.toString());
 };
 
 const previousCard = () => {
@@ -94,8 +95,15 @@ const previousCard = () => {
     }
     enteredWord.value = null;
     amountOfTries.value = 0;
+    localStorage.setItem('rhymesIndex', currentCard.value.toString());
 };
 const txtToSpeech = useTextToSpeechStore();
+
+onMounted(() => {
+    const storageIndex = ref(localStorage.getItem('rhymesIndex'));
+    if (storageIndex.value)
+        currentCard.value = Number(storageIndex.value);
+});
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->

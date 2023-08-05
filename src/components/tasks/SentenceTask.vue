@@ -1,7 +1,7 @@
 <!-- TS ------------------------------------------------------------//-->
 <script lang='ts' setup>
 import Sentence from '@/classes/Sentence.class';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
@@ -190,9 +190,15 @@ const nextWords = () => {
         currentIndex.value = 0;
     }
     amountOfTries.value = 0;
+    localStorage.setItem('sentenceIndex', currentIndex.value.toString());
 };
 
 const amountOfTries = ref(0);
+onMounted(() => {
+    const storageIndex = ref(localStorage.getItem('sentenceIndex'));
+    if (storageIndex.value)
+        currentIndex.value = Number(storageIndex.value);
+});
 </script>
 
 <!-- HTML ----------------------------------------------------------//-->

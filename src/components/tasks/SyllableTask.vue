@@ -19,11 +19,11 @@ import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 
 const syllables: Syllable[] = reactive([
-    { id: 0, syllables: 3, word: 'Banana', src: banana },
-    { id: 1, syllables: 2, word: 'Happy', src: happy },
-    { id: 2, syllables: 1, word: 'Dog', src: dog },
-    { id: 3, syllables: 2, word: 'Sunshine', src: sun },
-    { id: 4, syllables: 4, word: 'Caterpillar', src: caterpillar },
+    { id: 0, syllables: 3, word: 'Banana', syllWord: 'Ba - na - na', src: banana },
+    { id: 1, syllables: 2, word: 'Happy', syllWord: 'Hap - py', src: happy },
+    { id: 2, syllables: 1, word: 'Dog', syllWord: 'Dog', src: dog },
+    { id: 3, syllables: 2, word: 'Sunshine', syllWord: 'Sun - shine', src: sun },
+    { id: 4, syllables: 4, word: 'Caterpillar', syllWord: 'Ca - ter - pil - lar', src: caterpillar },
 ]);
 
 
@@ -35,6 +35,8 @@ const soundStore = useSoundHelperStore();
 const audio = ref();
 const maxRepetitions = ref(3);
 let playCount = 0;
+
+const canSee = ref(true);
 
 const enteredSyllableNumber = ref(null);
 const answerCorrect = ref(null);
@@ -143,7 +145,7 @@ onMounted(() => {
 
                 <ImageCard
                     v-if='currentCard !== null'
-                    :bottom-txt='syllables[currentCard].word'
+                    :bottom-txt='canSee ? syllables[currentCard].word : syllables[currentCard].syllWord'
                     :class='{"input-correct": answerCorrect}'
                     :src='syllables[currentCard].src'
                     has-bottom-txt

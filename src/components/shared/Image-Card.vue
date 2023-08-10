@@ -42,7 +42,6 @@ defineEmits(['voice', 'clickImg']);
             class='img'
             contain
             height='300px'
-            min-width='300px'
             style='cursor: pointer; padding: 2rem'
             width='100%'
             @click="$emit('clickImg')"

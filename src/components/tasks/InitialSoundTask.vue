@@ -213,9 +213,7 @@ onMounted(() => {
 
     // Grid with a maximum of 5 columns, no matter the screen width
     display: grid;
-    grid-template-columns: repeat(
-    auto-fit, minmax(min(max(100% / 5 - 1rem, 15rem), 100%), 1fr)
-  );
+    grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
 }
 

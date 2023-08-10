@@ -80,6 +80,7 @@ const clickImage = (clickedItem) => {
                 soundStore.playSound(sounds.value[currentIndex.value]);
             }, 3500);
         } else {
+            nextSound();
             setTimeout(() => {
                 router.push({
                     path: '/home',

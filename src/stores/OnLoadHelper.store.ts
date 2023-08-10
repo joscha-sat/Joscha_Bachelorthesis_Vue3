@@ -1,10 +1,12 @@
 import { defineStore, storeToRefs } from 'pinia';
 import { useTheme } from 'vuetify';
 import { useMascotStore } from '@/stores/mascot.store';
+import { ref } from 'vue';
 
 export const useOnLoadHelperStore = defineStore('onLoadHelper', () => {
     // STATE ------------------------------------------------------------------------------------------ |>
     const theme = useTheme();
+    const canSee = ref(true);
 
     // GETTER | COMPUTED ------------------------------------------------------------------------------ |>
 
@@ -49,5 +51,5 @@ export const useOnLoadHelperStore = defineStore('onLoadHelper', () => {
     };
 
     // RETURN --------------------------------------------------------------------------------------- |>
-    return { setPrimaryColor, setFontSize, setFontFamily, setThemeMode, setMascot };
+    return { setPrimaryColor, setFontSize, setFontFamily, setThemeMode, setMascot, canSee };
 });

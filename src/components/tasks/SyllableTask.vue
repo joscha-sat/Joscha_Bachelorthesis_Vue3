@@ -17,6 +17,7 @@ import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
+import { useOnLoadHelperStore } from '@/stores/OnLoadHelper.store';
 
 const syllables: Syllable[] = reactive([
     { id: 0, syllables: 3, word: 'Banana', syllWord: 'Ba - na - na', src: banana },
@@ -35,8 +36,6 @@ const soundStore = useSoundHelperStore();
 const audio = ref();
 const maxRepetitions = ref(3);
 let playCount = 0;
-
-const canSee = ref(true);
 
 const enteredSyllableNumber = ref(null);
 const answerCorrect = ref(null);
@@ -116,6 +115,9 @@ const previousCard = () => {
 };
 
 const amountOfTries = ref(0);
+
+const helperStore = useOnLoadHelperStore();
+const { canSee } = storeToRefs(helperStore);
 
 onMounted(() => {
     const storageIndex = ref(localStorage.getItem('syllablesIndex'));

@@ -55,13 +55,13 @@ const draggedLineIndex = ref(null);
 const helperIndex = ref(null);
 
 const dragStart = (event, index, lineIndex?) => {
-    event.dataTransfer.setData('text/plain', index.toString());
+    event.dataTransfer.setData('id', index.toString());
     helperIndex.value = lineIndex;
 };
 
 const drop = (event, lineIndex) => {
     event.preventDefault();
-    const wordIndex = parseInt(event.dataTransfer.getData('text/plain'));
+    const wordIndex = parseInt(event.dataTransfer.getData('id'));
     const word = words[wordIndex];
 
     const currentLineIndex = lines.findIndex((line) => line.wordIndex === wordIndex);
@@ -73,7 +73,6 @@ const drop = (event, lineIndex) => {
             lines[currentLineIndex].wordIndex = null;
             words[wordIndex].placed = false;
         }
-
         lines[lineIndex].wordIndex = wordIndex;
         word.placed = true;
     } else {
@@ -85,7 +84,9 @@ const drop = (event, lineIndex) => {
     }
     activeLineIndex.value = null;
     result();
-    amountOfTries.value += 1;
+    if (lines.every((item) => item.wordIndex != null && !correct.value)) {
+        amountOfTries.value += 1;
+    }
 };
 
 const dropWordBack = () => {
@@ -260,23 +261,23 @@ onMounted(() => {
         </div>
 
         <!--   hints if the user has some fail tries     -->
-        <span v-if='amountOfTries >= 6 && currentIndex === 0' class='hint'>
+        <span v-if='amountOfTries >= 2 && currentIndex === 0' class='hint'>
            hint: Play ____ ____ friends.
         </span>
 
-        <span v-if='amountOfTries >= 6 && currentIndex === 1' class='hint'>
+        <span v-if='amountOfTries >= 2 && currentIndex === 1' class='hint'>
            hint: Dogs love ____ ____.
         </span>
 
-        <span v-if='amountOfTries >= 6 && currentIndex === 2' class='hint'>
+        <span v-if='amountOfTries >= 2 && currentIndex === 2' class='hint'>
            hint: I ____ ice ____.
         </span>
 
-        <span v-if='amountOfTries >= 6 && currentIndex === 3' class='hint'>
+        <span v-if='amountOfTries >= 2 && currentIndex === 3' class='hint'>
            hint:  Birds ____ ____ melodies.
         </span>
 
-        <span v-if='amountOfTries >= 6 && currentIndex === 4' class='hint'>
+        <span v-if='amountOfTries >= 2 && currentIndex === 4' class='hint'>
            hint: ____ ____ your dreams.
         </span>
 

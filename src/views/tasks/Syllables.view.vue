@@ -7,7 +7,7 @@ import { ref } from 'vue';
 import { useOnLoadHelperStore } from '@/stores/OnLoadHelper.store';
 import { storeToRefs } from 'pinia';
 
-const tutorialText = ref('On your screen you can see an image with a word. You can listen to the word by clicking the image or the volume button. Below you see an input. You have to enter the right amount of syllables to the given word. You have to enter a number. You can check your answer by clicking on the check answer button. You can use the array keys to get a new word');
+const tutorialText = ref('On your screen you can see an image with a word. You can listen to the word by clicking the image or the volume button. Below you see an input. You have to enter the right amount of syllables to the given word. You have to enter a number. You can check your answer by clicking on the check answer button. You can use the arrow buttons to get a new word');
 
 
 const helperStore = useOnLoadHelperStore();
@@ -28,7 +28,7 @@ const btnClick = () => {
             <span v-if='!canSee'>I can hear</span>
         </v-btn>
     </div>
-    
+
     <v-container>
         <SyllableTask />
         <TutorialDialog :txt='tutorialText' />

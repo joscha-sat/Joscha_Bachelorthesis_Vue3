@@ -193,7 +193,7 @@ onMounted(() => {
 <style lang='scss' scoped>
 .allContainer {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
 }
 
 .hint {

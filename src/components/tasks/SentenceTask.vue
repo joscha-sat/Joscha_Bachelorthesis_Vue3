@@ -214,17 +214,17 @@ onMounted(() => {
                 v-for='(line, lineIndex) in lines'
                 :key='lineIndex'
                 :class="['line', { 'active-line': isLineActive(lineIndex), droppable: isLineDroppable(lineIndex), 'line-correct': correct, 'line-incorrect': falseSentence && !correct }]"
+                :style='{  "cursor": line.wordIndex !== null ? "grab" : "auto"}'
+                draggable='true'
                 @dragenter='dragEnter(lineIndex)'
                 @dragleave='dragLeave(lineIndex)'
+                @dragstart='dragStart($event, line.wordIndex, lineIndex)'
                 @drop='drop($event, lineIndex)'
                 @dragover.prevent
             >
                 <h2
                     v-if='line.wordIndex !== null'
-                    draggable='true'
-                    style='cursor: grab'
                     @click='clearLine(lineIndex)'
-                    @dragstart='dragStart($event, line.wordIndex, lineIndex)'
                 >
                     {{ words[line.wordIndex].text }}
                 </h2>

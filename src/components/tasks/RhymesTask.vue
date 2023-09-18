@@ -12,6 +12,7 @@ import ImageCard from '@/components/shared/Image-Card.vue';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
+import router from '@/router';
 
 interface RhymeResponse {
     word: string,
@@ -79,6 +80,11 @@ const nextCard = () => {
     } else {
         currentCard.value = 0;
         doesItRhyme.value = null;
+
+        router.push({
+            path: '/finished',
+        });
+
     }
     enteredWord.value = null;
     amountOfTries.value = 0;

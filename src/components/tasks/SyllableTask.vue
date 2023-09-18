@@ -18,6 +18,7 @@ import ImageCard from '@/components/shared/Image-Card.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 import { useOnLoadHelperStore } from '@/stores/OnLoadHelper.store';
+import router from '@/router';
 
 const syllables: Syllable[] = reactive([
     { id: 0, syllables: 3, word: 'Banana', syllWord: 'Ba - na - na', src: banana },
@@ -97,6 +98,9 @@ const nextCard = () => {
         currentCard.value++;
     } else {
         currentCard.value = 0;
+        router.push({
+            path: '/finished',
+        });
     }
     enteredSyllableNumber.value = null;
     amountOfTries.value = 0;

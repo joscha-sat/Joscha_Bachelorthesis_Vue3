@@ -81,12 +81,9 @@ const clickImage = (clickedItem) => {
             }, 3500);
         } else {
             nextSound();
-            setTimeout(() => {
-                router.push({
-                    path: '/home',
-                });
-            }, 3500);
-
+            router.push({
+                path: '/finished',
+            });
         }
 
     } else {

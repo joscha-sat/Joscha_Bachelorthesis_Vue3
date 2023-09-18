@@ -34,6 +34,7 @@ import { useTextToSpeechStore } from '@/stores/TextToSpeech.store';
 import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import ImageCard from '@/components/shared/Image-Card.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
+import router from '@/router';
 
 
 interface Letter {
@@ -91,6 +92,9 @@ const nextCard = () => {
         currentCardIndex.value++;
     } else {
         currentCardIndex.value = 0;
+        router.push({
+            path: '/finished',
+        });
     }
     correctAmount.value = 0;
     images.value.forEach((image) => image.showText = false);

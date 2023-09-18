@@ -7,6 +7,7 @@ import TitleWithSound from '@/components/shared/TitleWithSound.vue';
 import { useSoundHelperStore } from '@/stores/SoundHelper.store';
 import MascotFeedback from '@/components/shared/MascotFeedback.vue';
 import { useMascotStore } from '@/stores/mascot.store';
+import router from '@/router';
 
 const words: Sentence[] = reactive([
     { id: 0, text: 'your', placed: false },
@@ -189,6 +190,9 @@ const nextWords = () => {
             item.placed = false;
         });
         currentIndex.value = 0;
+        router.push({
+            path: '/finished',
+        });
     }
     amountOfTries.value = 0;
     localStorage.setItem('sentenceIndex', currentIndex.value.toString());
